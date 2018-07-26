@@ -1,0 +1,48 @@
+BUILDDIR=~/workspace/external-projects
+
+install : vim 
+
+prerequisites:
+	sudo apt install libncurses5-dev libgnome2-dev libgnomeui-dev \
+libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+libcairo2-dev libx11-dev libxpm-dev libxt-dev  \
+python3-dev ruby-dev lua5.1 liblua5.1-dev libperl-dev git
+
+uninstallsystemvim:
+	sudo apt remove vim vim-runtime gvim vim-tiny vim-common vim-gui-common vim-nox
+
+vim : prerequisites uninstallsystemvim
+	cd $(BUILDDIR) \
+		&& if [ -d vim ];then \
+		     cd vim ; git pull; cd -;\
+		   else \
+             git clone https://github.com/vim/vim.git; \
+           fi \
+		&& cd vim \
+		&& ./configure --with-features=huge \
+								--enable-multibyte \
+								--enable-rubyinterp=yes \
+								--enable-python3interp=yes \
+								--with-python3-config-dir=/usr/lib/python3.7/config \
+								--enable-perlinterp=yes \
+								--enable-luainterp=yes \
+								--enable-gui=gtk2 \
+								--enable-cscope \
+								--prefix=/usr/local \
+		&& make VIMRUNTIMEDIR=/usr/local/share/vim/vim81 \
+		&& echo "Build successful, now install into /usr/local" \
+		&& sudo make install \
+		&& sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1 \
+		&& sudo update-alternatives --set editor /usr/local/bin/vim \
+		&& sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1 \
+		&& sudo update-alternatives --set vi /usr/local/bin/vim \
+		&& rm -f ~/.vim && ln -s $(BUILDDIR)/vim/runtime ~/.vim \
+		&& dir=Vundle.vim \
+		&& if [ ! -d ~/.vim/bundle/$$dir ];then \
+		   git clone https://github.com/gmarik/$$dir.git ~/.vim/bundle/$$dir ;\
+			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi \
+		&& dir=YouCompleteMe;if [ ! -d ~/.vim/bundle/$$dir ];then \
+		   git clone https://github.com/Valloric/$$dir.git ~/.vim/bundle/$$dir ;\
+			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi && cd $$dir && \
+			 git submodule update --init --recursive && ./install.py --all && cd .. \
+		&& echo "vim installation successful. Configuration of .vimrc is missing"
