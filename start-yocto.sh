@@ -5,7 +5,7 @@ set -e
 yoctobranch=thud
 directory=$HOME/yocto
 
-func getsources() {
+function getsources() {
   remoteurl=$1
   dir=$2
   if [ ! -d ${dir} ]; then
