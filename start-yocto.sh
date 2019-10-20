@@ -20,8 +20,8 @@ function getsources() {
 if [ ! -e "${directory}" ]; then mkdir -p "${directory}"; fi
 cd "${directory}"
 
-getsources git://git.yoctoproject.org/poky.git sources/poky 
-getsources https://github.com/agherzan/meta-raspberrypi.git sources/meta-raspberrypi
-getsources https://github.com/openembedded/meta-openembedded.git sources/meta-openembedded
+getsources git://git.yoctoproject.org/poky.git poky 
+getsources https://github.com/agherzan/meta-raspberrypi.git layer/meta-raspberrypi
+getsources https://github.com/openembedded/meta-openembedded.git layer/meta-openembedded
 
 echo "poky, meta-raspberrypi, and meta-openembedded downloaded. Now, type \". ./poky/oe-init-build-env\" to create/enter the build folder"
