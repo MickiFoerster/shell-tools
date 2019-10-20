@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-
-set -e
-
 yoctobranch=thud
 directory=$HOME/yocto
 
@@ -24,4 +20,4 @@ getsources git://git.yoctoproject.org/poky.git poky
 getsources https://github.com/agherzan/meta-raspberrypi.git layer/meta-raspberrypi
 getsources https://github.com/openembedded/meta-openembedded.git layer/meta-openembedded
 
-echo "poky, meta-raspberrypi, and meta-openembedded downloaded. Now, type \". ./poky/oe-init-build-env\" to create/enter the build folder"
+source ./poky/oe-init-build-env
