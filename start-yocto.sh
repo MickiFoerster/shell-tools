@@ -27,3 +27,16 @@ getsources https://github.com/openembedded/meta-openembedded.git layer/meta-open
 getsources git://git.openembedded.org/openembedded-core layer/openembedded-core ${yoctobranch}
 
 source ./poky/oe-init-build-env
+
+for l in $directory/layer/meta-raspberrypi \
+    $directory/layer/meta-openembedded/meta-oe \
+    $directory/layer/meta-openembedded/meta-python \
+    $directory/layer/meta-openembedded/meta-networking \
+    $directory/layer/meta-openembedded/meta-multimedia \
+    $directory/layer/meta-openembedded/meta-filesystems \
+    $directory/layer/meta-raspberrypi \
+    $directory/layer/meta-micki \
+; do
+    bitbake-layers add-layer $l
+done
+
