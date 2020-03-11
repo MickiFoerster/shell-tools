@@ -36,6 +36,7 @@ for l in $directory/layer/meta-raspberrypi \
     $directory/layer/meta-openembedded/meta-filesystems \
     $directory/layer/meta-raspberrypi \
     $directory/layer/meta-micki \
+    $directory/layer/meta-micki/meta-networking \
 ; do
     bitbake-layers add-layer $l
 done
