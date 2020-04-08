@@ -2,7 +2,7 @@
 #yoctobranch=zeus
 #yoctobranch=warrior
 yoctobranch=thud
-directory=$HOME/yocto
+directory=$HOME/raspberrypi-yocto
 
 function getsources() {
   remoteurl=$1
@@ -21,10 +21,11 @@ function getsources() {
 if [ ! -e "${directory}" ]; then mkdir -p "${directory}"; fi
 cd "${directory}"
 
-getsources git://git.yoctoproject.org/poky.git poky ${yoctobranch}
-getsources https://github.com/agherzan/meta-raspberrypi.git layer/meta-raspberrypi  ${yoctobranch}
+getsources git://git.yoctoproject.org/poky.git                   poky                    ${yoctobranch}
+getsources https://github.com/agherzan/meta-raspberrypi.git      layer/meta-raspberrypi  ${yoctobranch}
 getsources https://github.com/openembedded/meta-openembedded.git layer/meta-openembedded ${yoctobranch}
-getsources git://git.openembedded.org/openembedded-core layer/openembedded-core ${yoctobranch}
+getsources git://git.openembedded.org/openembedded-core          layer/openembedded-core ${yoctobranch}
+getsources git@github.com:MickiFoerster/meta-micki.git           layer/meta-micki        master
 
 source ./poky/oe-init-build-env
 
