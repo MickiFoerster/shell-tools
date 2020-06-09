@@ -2,7 +2,8 @@
 #yoctobranch=zeus
 #yoctobranch=warrior
 yoctobranch=thud
-directory=$HOME/raspberrypi-yocto
+#directory=$HOME/raspberrypi-yocto
+directory=$HOME/yocto
 
 function getsources() {
   remoteurl=$1

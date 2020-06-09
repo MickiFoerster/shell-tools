@@ -28,7 +28,7 @@ vimbbclass() {
     if [ -n "$res" ]; then
       cd $(dirname "$res") 
       ctags --languages=python,sh $(basename "$res")
-      vim (basename "$res")
+      vim $(basename "$res")
       cd -
     else
       echo "vimbb: no matches found"
