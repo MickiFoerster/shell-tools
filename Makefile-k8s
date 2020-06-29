@@ -1,6 +1,13 @@
-master:
-	echo "installing Kubernetes master"
-	echo "step 1 - install docker"
+node  : docker kubelet kubeadm kubectl
+master: docker kubelet kubeadm kubectl
+	@echo "k8s master: deploying kubernets with calico ..."
+	kubeadm init --pod-network-cidr=192.168.0.0/16
+	curl https://docs.projectcalico.org/manifests/calico.yaml -O
+	KUBECONFIG=/etc/kubernetes/admin.conf kubectl apply -f calico.yaml
+
+docker: 
+	@echo "installing Kubernetes master"
+	@echo "step 1 - install docker"
 	sudo apt-get update
 	sudo apt-get upgrade -y 
 	sudo apt-get install -y \
@@ -9,12 +16,31 @@ master:
 		curl \
 		software-properties-common
 	curl -fSsL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	echo add-apt-repository \
+	add-apt-repository \
 		"deb https://download.docker.com/linux/`. /etc/os-release; echo "$$ID"` \
 		`lsb_release -cs` \
 		stable"
 	sudo apt-get update
-	sudo apt-get install -y docker-ce=`apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}'`
+	sudo apt-get install -y docker-ce
+	@echo "installation of docker: SUCCESS"
 
+kubernetes:
+	apt-get update && apt-get install -y apt-transport-https
+	curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+		sudo apt-key add - 
+	@echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" \
+		>/etc/apt/sources.list.d/kubernetes.list
+	apt-get update
 
+kubelet: kubernetes
+	apt-get install -y kubelet
+kubeadm: kubernetes
+	apt-get install -y kubeadm
+kubectl: kubernetes
+	apt-get install -y kubectl
 
+.PHONY: docker master kubernetes kubelet kubeadm kubectl
+
+# clone VM
+# virt-clone --original {Domain-Vm-Name-Here} --name {New-Domain-Vm-Name-Here} --auto-clone
+# dbus-uuidgen --ensure=/etc/machine-id
