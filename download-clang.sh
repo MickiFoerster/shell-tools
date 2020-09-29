@@ -3,27 +3,35 @@ if [ -z "$1" ]; then
     exit 1
 fi
 CLANG_VERSION=$1
-sudo apt-get install build-essential subversion swig python2.7-dev libedit-dev libncurses5-dev
+#sudo apt-get install build-essential subversion swig python2.7-dev libedit-dev libncurses5-dev
 mkdir -p $HOME/workspace/external-projects/
 cd $HOME/workspace/external-projects/
 mkdir clang/clang-${CLANG_VERSION}
 cd  clang/clang-${CLANG_VERSION}
-curl -O http://releases.llvm.org/${CLANG_VERSION}/llvm-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/cfe-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/compiler-rt-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/libcxx-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/libcxxabi-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/libunwind-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/lld-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/lldb-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/openmp-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/polly-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/clang-tools-extra-${CLANG_VERSION}.src.tar.xz
-curl -O http://releases.llvm.org/${CLANG_VERSION}/test-suite-${CLANG_VERSION}.src.tar.xz
-for i in *.xz;do tar xf $i;done
-#mv llvm-${CLANG_VERSION}.src/ llvm
 LLVM=llvm-${CLANG_VERSION}.src
-mv cfe-${CLANG_VERSION}.src $LLVM/tools/clang
+for i in llvm-${CLANG_VERSION}  \
+         clang-${CLANG_VERSION} \
+         compiler-rt-${CLANG_VERSION} \
+         libcxx-${CLANG_VERSION} \
+         libcxxabi-${CLANG_VERSION} \
+         libunwind-${CLANG_VERSION} \
+         lld-${CLANG_VERSION} \
+         lldb-${CLANG_VERSION} \
+         openmp-${CLANG_VERSION} \
+         polly-${CLANG_VERSION} \
+         clang-tools-extra-${CLANG_VERSION} \
+         test-suite-${CLANG_VERSION} \
+; do
+  wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.1/${i}.src.tar.xz && \
+      tar xf ${i}.src.tar.xz && \
+      echo "source $i downloaded and extracted successfully"
+
+  if [[ $? -ne 0 ]]; then
+      echo "error: source ${i} could not be downloaded or extracted"
+      exit 1
+  fi
+done
+mv clang-${CLANG_VERSION}.src $LLVM/tools/clang
 mv clang-tools-extra-${CLANG_VERSION}.src $LLVM/tools/clang/tools/extra
 mv compiler-rt-${CLANG_VERSION}.src $LLVM/projects/compiler-rt
 mv libcxx-${CLANG_VERSION}.src $LLVM/projects/libcxx
