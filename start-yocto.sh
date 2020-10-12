@@ -1,7 +1,6 @@
 #yoctobranch=master
-#yoctobranch=zeus
-#yoctobranch=warrior
-yoctobranch=thud
+yoctobranch=dunfell
+#yoctobranch=thud
 #directory=$HOME/raspberrypi-yocto
 directory=$HOME/yocto
 
