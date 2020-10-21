@@ -1,0 +1,35 @@
+ENABLE_LANGS=--enable-languages=c,c++,go
+ENABLE_LANGS_WO_GO=--enable-languages=c,c++
+NPROC=$(shell nproc --all)
+NPROC=1
+
+gcc-git: 
+	cd $$HOME/workspace/external-projects; \
+	if [ ! -d gcc-git ];then mkdir gcc-git;fi && \
+			cd gcc-git && \
+	if [ ! -d gcc ]; then git clone https://github.com/gcc-mirror/gcc.git && cd gcc; else cd gcc && git pull; fi && \
+	./contrib/download_prerequisites && cd .. &&  \
+	if [ ! -d bld ];then mkdir bld; else rm -rf bld;mkdir bld;fi &&  cd bld &&  \
+	../gcc/configure ${ENABLE_LANGS} CC=gcc CXX=g++ \
+		--prefix=`pwd` \
+		--program-suffix=-git \
+		--disable-multilib \
+		--disable-libgcj &&  \
+	nice -n 19 env LIBRARY_PATH=/usr/lib/`gcc -print-multiarch` CPATH=/usr/include/`gcc -print-multiarch`    \
+		make -j $(NPROC) all install && \
+		make html install-html && \
+		echo gcc build ready inside `pwd`
+
+gcc-10.2.0: 
+	cd $$HOME/workspace/external-projects \
+		&& if [ ! -f gcc-10.2.0.tar.xz ];then /usr/bin/wget -N ftp://ftp.gwdg.de/pub/misc/gcc/releases/gcc-10.2.0/gcc-10.2.0.tar.xz ;fi \
+		&& if [ ! -d gcc-10.2.0 ];then tar xfJ gcc-10.2.0.tar.xz ;fi \
+		&& cd gcc-10.2.0 \
+		&& ./contrib/download_prerequisites \
+		&& rm -rf bld && mkdir bld \
+    && cd bld \
+	  && ../configure $(ENABLE_LANGS) --prefix=`pwd` --program-suffix=-10.2.0 --disable-multilib --disable-libgcj \
+		&& nice -n 19 env CC=gcc CXX=g++ make -j 1 all install \
+    && echo gcc build ready inside `pwd`
+
+.PHONY: gcc-10.2.0 gcc-git
