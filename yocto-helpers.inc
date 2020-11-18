@@ -1,3 +1,7 @@
+findservice() {
+  find -name "*.service"
+}
+
 findbb() {
   find -name "*.bb" -o -name "*.bbappend" -o -name "*.bbclass"
 }
