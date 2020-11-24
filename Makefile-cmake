@@ -1,0 +1,14 @@
+VERSION=3.19.1
+
+all:
+	wget https://github.com/Kitware/CMake/releases/download/v$(VERSION)/cmake-$(VERSION).tar.gz
+	tar xf cmake-$(VERSION).tar.gz
+	cd cmake-$(VERSION)/ && \
+mkdir build && \
+cd build/ && \
+../configure --prefix=`pwd` && \
+make -j 12 && \
+make install && \
+cd bin && \
+echo -n "Set this in your shell rc file:\nexport PATH=$PWD:\$PATH"
+
