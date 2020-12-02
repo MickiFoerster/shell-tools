@@ -1,3 +1,26 @@
+cdbb() {
+    if [ -z "$1" ]; then
+      echo "Argument missing"
+      return 1
+    fi
+    bb=$(findbb |  grep $1 | head -n1)
+    if [ -z "${bb}" ]; then
+      echo "Cannot find '$1'"
+      return 2
+    fi
+    target_dir=$(dirname ${bb})
+    if [ ! -d "${target_dir}" ]; then
+      echo "Cannot find directory of '$bb'"
+      return 3
+    fi
+    cd ${target_dir}
+    if [ $? -ne 0 ]; then
+      echo "Cannot change directory to ${target_dir}"
+      return 4
+    fi
+    return 0
+}
+
 findservice() {
   find -name "*.service"
 }
