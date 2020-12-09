@@ -1,0 +1,8 @@
+all:
+	git clone https://github.com/iovisor/bcc.git
+	mkdir bcc/build; 
+	cd bcc/build && \
+	cmake .. && \
+	ninja && \
+	sudo ninja install && \
+	echo 'dir=/usr/share/bcc/tools; if [ -d $dir ]; then export PATH=$dir:$PATH; fi' >> /root/.bashrc
