@@ -1,8 +1,9 @@
 all:
-	git clone https://github.com/iovisor/bcc.git
-	mkdir bcc/build; 
-	cd bcc/build && \
-	cmake .. && \
-	ninja && \
+	printf "Prerequisites:\n\n\t sudo apt-get -y install luajit luajit-5.1-dev bison build-essential cmake flex git libedit-dev libllvm6.0 llvm-6.0-dev libclang-6.0-dev python zlib1g-dev libelf-dev\n\n"
+	dir=$$HOME/workspace/external-projects/bcc;if [ -d $$dir ]; then cd $$dir; git pull ; cd -; else git clone https://github.com/iovisor/bcc.git $$dir; fi
+	cd $$HOME/workspace/external-projects/bcc && \
+	rm -rf build && mkdir -p build && cd build && \
+	CC=gcc CXX=g++ cmake -GNinja .. && \
+	ninja -v -j1 && \
 	sudo ninja install && \
-	echo 'dir=/usr/share/bcc/tools; if [ -d $dir ]; then export PATH=$dir:$PATH; fi' >> /root/.bashrc
+	@echo 'Please note to append dir=/usr/share/bcc/tools; if [ -d $dir ]; then export PATH=$dir:$PATH; fi; to your /root/.bashrc file'
