@@ -6,4 +6,4 @@ all:
 	CC=gcc CXX=g++ cmake -GNinja .. && \
 	ninja -v -j1 && \
 	sudo ninja install && \
-	@echo 'Please note to append dir=/usr/share/bcc/tools; if [ -d $dir ]; then export PATH=$dir:$PATH; fi; to your /root/.bashrc file'
+	echo 'Please note to append dir=/usr/share/bcc/tools; if [ -d $dir ]; then export PATH=$dir:$PATH; fi; to your /root/.bashrc file'
