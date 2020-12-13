@@ -11,5 +11,5 @@ else
 fi && \
 dir=`pwd` && \
 $dir/emsdk install latest && \
-$dir/emsdk activate lastest && \
+$dir/emsdk activate latest && \
 source $dir/emsdk_env.sh
