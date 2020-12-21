@@ -50,5 +50,9 @@ vim : prerequisites uninstallsystemvim
 		     git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go; \
 		   else 
 	         cd ~/.vim/pack/plugins/start/vim-go && git pull && cd .. ; \
-		   fi \
-		&& echo "vim installation successful. Configuration of .vimrc is missing"
+		   fi && \
+		git clone https://github.com/rust-lang/rust.vim ~/.vim/pack/plugins/start/rust.vim && \
+		echo "vim installation successful. Configuration of .vimrc is missing"
+
+
+
