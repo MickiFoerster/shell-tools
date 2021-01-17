@@ -12,6 +12,7 @@ mkdir -p $HOME/workspace/external-projects/
 cd $HOME/workspace/external-projects/
 mkdir clang/clang-${CLANG_VERSION}
 cd  clang/clang-${CLANG_VERSION}
+BASE_DIR=$(pwd)
 LLVM=llvm-${CLANG_VERSION}.src
 for i in llvm-${CLANG_VERSION}  \
          clang-${CLANG_VERSION} \
@@ -47,3 +48,10 @@ mv test-suite-${CLANG_VERSION}.src $LLVM/projects/test-suite
 mv libunwind-${CLANG_VERSION}.src $LLVM/projects/libunwind
 mv lldb-${CLANG_VERSION}.src $LLVM/tools/lldb
 mv lld-${CLANG_VERSION}.src $LLVM/tools/
+
+BUILD_DIR=${BASE_DIR}/llvm-${CLANG_VERSION}.build
+mkdir -p ${BUILD_DIR}  && \
+    cd ${BUILD_DIR} && \
+    CC=gcc CXX=g++ cmake -GNinja ../llvm-${CLANG_VERSION}.src && \
+    ninja -v && \
+    echo "clang ${CLANG_VERSION} successfully build in ${BUILD_DIR}"
