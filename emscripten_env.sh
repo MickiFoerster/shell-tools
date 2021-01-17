@@ -1,5 +1,5 @@
 #!/bin/sh	
-old=$PWD
+old=`pwd`
 dir=$HOME/workspace/external-projects && \
 cd $dir && \
 dir=emsdk && \
@@ -14,4 +14,4 @@ dir=`pwd` && \
 $dir/emsdk install latest && \
 $dir/emsdk activate latest && \
 source $dir/emsdk_env.sh
-cd $old
+cd "${old}"
