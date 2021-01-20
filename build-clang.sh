@@ -1,13 +1,18 @@
+#!/bin/bash
+
 if [ -z "$1" ]; then
     echo "error: Give LLVM version as parameter, e.g.:\n$0 7.0.0"
     exit 1
 fi
 CLANG_VERSION=$1
+URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-${CLANG_VERSION}
+
 #sudo apt-get install build-essential subversion swig python2.7-dev libedit-dev libncurses5-dev
 mkdir -p $HOME/workspace/external-projects/
 cd $HOME/workspace/external-projects/
 mkdir clang/clang-${CLANG_VERSION}
 cd  clang/clang-${CLANG_VERSION}
+BASE_DIR=$(pwd)
 LLVM=llvm-${CLANG_VERSION}.src
 for i in llvm-${CLANG_VERSION}  \
          clang-${CLANG_VERSION} \
@@ -22,9 +27,10 @@ for i in llvm-${CLANG_VERSION}  \
          clang-tools-extra-${CLANG_VERSION} \
          test-suite-${CLANG_VERSION} \
 ; do
-  wget https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.1/${i}.src.tar.xz && \
+  wget ${URL}/${i}.src.tar.xz && \
+      echo "source $i downloaded successfully" && \
       tar xf ${i}.src.tar.xz && \
-      echo "source $i downloaded and extracted successfully"
+      echo "source $i extracted successfully"
 
   if [[ $? -ne 0 ]]; then
       echo "error: source ${i} could not be downloaded or extracted"
@@ -42,3 +48,10 @@ mv test-suite-${CLANG_VERSION}.src $LLVM/projects/test-suite
 mv libunwind-${CLANG_VERSION}.src $LLVM/projects/libunwind
 mv lldb-${CLANG_VERSION}.src $LLVM/tools/lldb
 mv lld-${CLANG_VERSION}.src $LLVM/tools/
+
+BUILD_DIR=${BASE_DIR}/llvm-${CLANG_VERSION}.build
+mkdir -p ${BUILD_DIR}  && \
+    cd ${BUILD_DIR} && \
+    CC=gcc CXX=g++ cmake -GNinja ../llvm-${CLANG_VERSION}.src && \
+    ninja -v && \
+    echo "clang ${CLANG_VERSION} successfully build in ${BUILD_DIR}"

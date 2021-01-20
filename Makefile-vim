@@ -11,7 +11,7 @@ python3-dev ruby-dev lua5.1 liblua5.1-dev libperl-dev git
 uninstallsystemvim:
 	sudo apt remove vim vim-runtime gvim vim-tiny vim-common vim-gui-common vim-nox
 
-vim : prerequisites uninstallsystemvim
+vim : uninstallsystemvim
 	cd $(BUILDDIR) \
 		&& if [ -d vim ];then \
 		     cd vim ; git pull; cd -;\
@@ -37,22 +37,22 @@ vim : prerequisites uninstallsystemvim
 		&& sudo update-alternatives --set editor /usr/local/bin/vim \
 		&& sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1 \
 		&& sudo update-alternatives --set vi /usr/local/bin/vim \
-		&& rm -f ~/.vim && ln -s $(BUILDDIR)/vim/runtime ~/.vim \
-		&& dir=Vundle.vim \
-		&& if [ ! -d ~/.vim/bundle/$$dir ];then \
-		   git clone https://github.com/gmarik/$$dir.git ~/.vim/bundle/$$dir ;\
-			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi \
-		&& dir=YouCompleteMe;if [ ! -d ~/.vim/bundle/$$dir ];then \
-		   git clone https://github.com/Valloric/$$dir.git ~/.vim/bundle/$$dir ;\
-			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi && cd $$dir && \
-			 git submodule update --init --recursive && ./install.py --all && cd .. \
-		&& if [ ! -d ~/.vim/pack/plugins/start/vim-go ]; then \
-		     git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go; \
-		   else 
-	         cd ~/.vim/pack/plugins/start/vim-go && git pull && cd .. ; \
-		   fi && \
-		git clone https://github.com/rust-lang/rust.vim ~/.vim/pack/plugins/start/rust.vim && \
-		echo "vim installation successful. Configuration of .vimrc is missing"
+		&& echo "vim installation successful. Configuration of .vimrc is missing"
 
 
 
+
+#		&& rm -f ~/.vim && ln -s $(BUILDDIR)/vim/runtime ~/.vim \
+#		&& dir=Vundle.vim \
+#		&& if [ ! -d ~/.vim/bundle/$$dir ];then \
+#		   git clone https://github.com/gmarik/$$dir.git ~/.vim/bundle/$$dir ;\
+#			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi \
+#		&& dir=YouCompleteMe;if [ ! -d ~/.vim/bundle/$$dir ];then \
+#		   git clone https://github.com/Valloric/$$dir.git ~/.vim/bundle/$$dir ;\
+#			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi && cd $$dir && \
+#			 git submodule update --init --recursive && ./install.py --all && cd .. \
+#		&& if [ ! -d ~/.vim/pack/plugins/start/vim-go ]; then \
+#		     git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go; \
+#		   else 
+#	         cd ~/.vim/pack/plugins/start/vim-go && git pull && cd .. ; \
+#		   fi \
