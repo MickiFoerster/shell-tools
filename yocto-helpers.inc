@@ -61,3 +61,6 @@ vimbbclass() {
       echo "vimbb: no matches found"
     fi
 }
+
+export BB_NUMBER_THREADS="3"
+export PARALLEL_MAKE="-j3"
