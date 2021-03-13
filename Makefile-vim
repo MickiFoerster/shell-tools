@@ -37,7 +37,7 @@ vim : uninstallsystemvim
 		&& sudo update-alternatives --set editor /usr/local/bin/vim \
 		&& sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1 \
 		&& sudo update-alternatives --set vi /usr/local/bin/vim \
-		&& echo "vim installation successful. Configuration of .vimrc is missing"
+		&& echo "vim installation successful. Configuration of .vimrc is missing" \
 		&& rm -f ~/.vim && ln -s $(BUILDDIR)/vim/runtime ~/.vim \
 		&& dir=Vundle.vim \
 		&& if [ ! -d ~/.vim/bundle/$$dir ];then \
@@ -49,6 +49,7 @@ vim : uninstallsystemvim
 			 git submodule update --init --recursive && ./install.py --all && cd .. \
 		&& if [ ! -d ~/.vim/pack/plugins/start/vim-go ]; then \
 		     git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go; \
-		   else 
+		   else \
 	         cd ~/.vim/pack/plugins/start/vim-go && git pull && cd .. ; \
 		   fi \
+        && echo "DONE"
