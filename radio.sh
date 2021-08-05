@@ -1,7 +1,7 @@
 #!/bin/bash
 cd $HOME
 #playapp="vlc"
-playapp="/usr/bin/firejail mplayer"
+playapp="/usr/bin/firejail mpv"
 
 printf "1. Ambient chill: Big R Radio - Erins Chill\n"
 #channel1="http://173.192.43.20:10019"
@@ -17,7 +17,7 @@ channel5='http://88.191.11.123:8760'
 printf "6. Secret Agent from SomaFM\n"
 channel6='http://uwstream2.somafm.com:9016'
 printf "7. chronix aggression\n"
-channel7='http://www.chronixradio.com/stations/chronixaggression/listen/listen.pls'
+channel7='https://fastcast4u.com/player/gebacher/?pl=vlc&c=0'
 printf "8. 181.fm - the buzz\n"
 channel8='http://relay.181.fm:8126/'
 printf "9. www.cinemix.us\n"
@@ -29,34 +29,34 @@ read answer
 
 case $answer in
 	1)  playapp="/opt/google/chrome/chrome"
-		$playapp $channel1 #1>/dev/null 2>&1 &
+		$playapp "$channel1" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	2) $playapp $channel2 #1>/dev/null 2>&1 &
+	2) $playapp "$channel2" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	3) $playapp $channel3 #1>/dev/null 2>&1 &
+	3) $playapp "$channel3" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	4) $playapp $channel4 #1>/dev/null 2>&1 &
+	4) $playapp "$channel4" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	5) $playapp $channel5 #1>/dev/null 2>&1 &
+	5) $playapp "$channel5" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	6) $playapp $channel6 #1>/dev/null 2>&1 &
+	6) $playapp "$channel6" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	7) $playapp $channel7 #1>/dev/null 2>&1 &
+	7) $playapp "$channel7" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	8) $playapp $channel8 #1>/dev/null 2>&1 &
+	8) $playapp "$channel8" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	9) $playapp $channel9 #1>/dev/null 2>&1 &
+	9) $playapp "$channel9" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	10) $playapp $channel10 #1>/dev/null 2>&1 &
+	10) $playapp "$channel10" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
 	*) echo "Wrong answer, so long."

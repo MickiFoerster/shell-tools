@@ -18,3 +18,13 @@ chmod 700 docker-credential-pass
 mv docker-credential-pass ~/bin/
 rm docker-credential-pass-v0.6.3-amd64.tar.gz
 cd -
+
+# Create credentials 
+echo "Please use your git name for creating GPG key:"
+git config --global user.name
+git config --global user.email
+gpg2 --gen-key
+pass init "$(git config --global user.name)"
+
+# Set configuration to use encrypted password
+sed -i '0,/{/s/{/{\n\t"credsStore": "pass",/' ~/.docker/config.json
