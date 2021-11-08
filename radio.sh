@@ -1,7 +1,7 @@
 #!/bin/bash
 cd $HOME
 #playapp="vlc"
-playapp="/usr/bin/firejail mpv"
+playapp="mpv"
 
 printf "1. Ambient chill: Big R Radio - Erins Chill\n"
 #channel1="http://173.192.43.20:10019"
