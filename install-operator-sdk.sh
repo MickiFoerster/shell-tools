@@ -1,10 +1,17 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
-go get -d github.com/operator-framework/operator-sdk
-cd ${GOPATH}/src/github.com/operator-framework/operator-sdk
+set -x
+cd $(go env GOPATH)
+mkdir -p src/github.com/operator-framework
+cd       src/github.com/operator-framework
+if [[ ! -d operator-sdk ]]; then
+    git clone https://github.com/operator-framework/operator-sdk
+fi
+cd operator-sdk; 
 git checkout master
-make tidy
+git pull
+go mod tidy
 make install
 
 
