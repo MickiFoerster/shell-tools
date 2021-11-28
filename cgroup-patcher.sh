@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
  
 if ! grep -q cgroup2 /proc/filesystems; then
     echo "error: cgroupv2 is not supported"
