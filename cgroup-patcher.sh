@@ -24,9 +24,17 @@ set -e
 
 tmpfile=/tmp/awk-repl-$RANDOM
 awk -F= -v karg=${kernelarg} '
-/GRUB_CMDLINE_LINUX=/          { r = gensub(/"(.*)"/,  "\\1 " karg, "g", $2); print $1"=\""r"\""; next; }
+/GRUB_CMDLINE_LINUX=/          { 
+    if ( index($0, karg) > 0 ) {
+        r = gensub(/"(.*)"/,  "\\1 " karg, "g", $2); print $1"=\""r"\""; 
+    }
+    else {
+        print "DEBUG: " $0;
+    }
+    next;
+}
                                { print ; }
-' $f  >${tmpfile}
+' >${tmpfile}
 
 chmod 644 ${tmpfile}
 mv ${tmpfile} $f
