@@ -7,7 +7,6 @@ printf "1. Ambient chill: Big R Radio - Erins Chill\n"
 #channel1="http://173.192.43.20:10019"
 channel1="http://tunein.com/radio/Big-R-Radio-Erins-Chill-s89921/"
 printf "2. radio groove\n"
-channel2="`wget -O - http://somafm.com/groovesalad.pls 2>/dev/null | grep File1 | sed "s/.*\(http.*\)/\1/"`"
 printf "3. radio paradise\n"
 channel3='http://scfire-chi-aa01.stream.aol.com:80/stream/1048 http://scfire-dll-aa01.stream.aol.com:80/stream/1048 http://scfire-nyk-aa04.stream.aol.com:80/stream/1048 http://scfire-ntc-aa04.stream.aol.com:80/stream/1048'
 printf "4. streamingsoundtracks.com\n"
@@ -22,8 +21,6 @@ printf "8. 181.fm - the buzz\n"
 channel8='http://relay.181.fm:8126/'
 printf "9. www.cinemix.us\n"
 channel9='http://listen.cinemix.fr'
-#printf "10. monkeyradio.org 192kbps (for 96kbps see website)\n"
-#channel10="`wget -O - http://groove.monkeyradio.org/ 2>/dev/null | grep File1 | sed "s/.*\(http.*\)/\1/"`"
 printf "Choose your channel: " ;
 read answer
 
@@ -32,7 +29,8 @@ case $answer in
 		$playapp "$channel1" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
-	2) $playapp "$channel2" #1>/dev/null 2>&1 &
+	2)  channel2="`wget -O - http://somafm.com/groovesalad.pls 2>/dev/null | grep File1 | sed "s/.*\(http.*\)/\1/"`"
+        $playapp "$channel2" #1>/dev/null 2>&1 &
 		printf "Enjoy the channel.\n"
 		;;
 	3) $playapp "$channel3" #1>/dev/null 2>&1 &
