@@ -23,10 +23,10 @@ fi
 set -e
 
 tmpfile=/tmp/awk-repl-$RANDOM
-awk -F= -v karg=${kernelarg} '
-/GRUB_CMDLINE_LINUX=/          { r = gensub(/"(.*)"/,  "\\1 " karg, "g", $2); print $1"=\""r"\""; next; }
+awk -F\" -v karg=${kernelarg} '
+/GRUB_CMDLINE_LINUX=/          { print "GRUB_CMDLINE_LINUX=\"" $2 " " karg "\""; next; }
                                { print ; }
-' $f  >${tmpfile}
+' >${tmpfile}
 
 chmod 644 ${tmpfile}
 mv ${tmpfile} $f
