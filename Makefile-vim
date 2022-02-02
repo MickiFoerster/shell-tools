@@ -60,4 +60,5 @@ vim : uninstallsystemvim
 		   fi \
         && echo "DONE"
 
-
+# Auto-update ctags files:
+# git clone git://github.com/craigemery/vim-autotag.git ~/.vim/bundle/vim-autotag
