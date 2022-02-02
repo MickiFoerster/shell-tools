@@ -1,7 +1,7 @@
 ENABLE_LANGS=--enable-languages=c,c++,go
 ENABLE_LANGS_WO_GO=--enable-languages=c,c++
 NPROC=$(shell nproc --all)
-NPROC=1
+NPROC=4
 
 gcc-git: 
 	cd $$HOME/workspace/external-projects; \
