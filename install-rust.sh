@@ -12,6 +12,7 @@ for pkg in \
     cargo-watch    \
     grcov    \
     rustlings    \
+    rusty-tags \
     sea-orm-cli    \
     sqlx-cli    \
     tokio-console    \
