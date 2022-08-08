@@ -54,9 +54,9 @@ vim : uninstallsystemvim
 		   fi \
 	    && dir=$$HOME/.vim/pack/plugins/start/vim-terraform && \
 	   	   if [ ! -d $${dir} ]; then \
-		   	 git clone https://github.com/hashivim/vim-terraform.git $${dir}
+		   	 git clone https://github.com/hashivim/vim-terraform.git $${dir}; \
 		   else \
-		   	 cd  $${dir} && git pull && cd - && \
+		   	 cd  $${dir} && git pull && cd - ; \
 		   fi \
         && echo "DONE"
 
