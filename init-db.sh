@@ -61,3 +61,13 @@ done
 
 export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}
 sqlx database create
+sqlx migrate run
+
+>&2 echo "Postgres has been migrated, ready to go!"
+
+# start pgAdmin4 container
+#docker run -p 80:80 \
+#    -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
+#    -e 'PGADMIN_DEFAULT_PASSWORD=SuperSecret' \
+#    -d dpage/pgadmin4
+
