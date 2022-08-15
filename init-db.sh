@@ -69,8 +69,11 @@ echo "export PGPASSWORD=${DB_PASSWORD}"
 if [ -d migrations ]; then
     sqlx database create
     sqlx migrate run
-    >&2 echo "Postgres has been migrated, ready to go!"
+else
+    mkdir migrations
+    yes | sqlx database reset
 fi
+>&2 echo "Postgres has been migrated, ready to go!"
 
 # start pgAdmin4 container
 #docker run -p 80:80 \
