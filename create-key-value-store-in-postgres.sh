@@ -16,7 +16,7 @@ f=$(ls)
 cd -
 
 cat <<EOM > migrations/$f
-CREATE TABLE subscriptions(
+CREATE TABLE values(
     id uuid NOT NULL,
     PRIMARY KEY (id),
     key TEXT NOT NULL UNIQUE,

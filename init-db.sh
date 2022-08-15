@@ -59,11 +59,18 @@ until psql -h "localhost" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q' 
 done
 >&2 echo "Postgres is up and running on port ${DB_PORT}!"
 
-export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}
-sqlx database create
-sqlx migrate run
+echo "Remember so set the following env variable:"
+echo "export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}"
+echo "export PGHOST=localhost"
+echo "export PGPORT=${DB_PORT}"
+echo "export PGUSER=${DB_USER}"
+echo "export PGPASSWORD=${DB_PASSWORD}"
 
->&2 echo "Postgres has been migrated, ready to go!"
+if [ -d migrations ]; then
+    sqlx database create
+    sqlx migrate run
+    >&2 echo "Postgres has been migrated, ready to go!"
+fi
 
 # start pgAdmin4 container
 #docker run -p 80:80 \
