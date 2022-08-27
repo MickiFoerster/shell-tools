@@ -11,9 +11,10 @@ rustup toolchain install nightly --allow-downgrade
 
 # cargo packages
 for pkg in \
-    cargo-edit    \
-    cargo-expand    \
+    cargo-edit     \
+    cargo-expand   \
     cargo-watch    \
+    crates-mirror  \
     grcov    \
     rustlings    \
     rusty-tags \

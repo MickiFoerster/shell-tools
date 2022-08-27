@@ -22,7 +22,6 @@ vim : uninstallsystemvim
 								--enable-multibyte \
 								--enable-rubyinterp=yes \
 								--enable-python3interp=yes \
-								--with-python3-config-dir=/usr/lib/python3.7/config \
 								--disable-pythoninterp \
 								--enable-perlinterp=yes \
 								--enable-luainterp=yes \
@@ -60,5 +59,28 @@ vim : uninstallsystemvim
 		   fi \
         && echo "DONE"
 
+								#--with-python3-config-dir=/usr/lib/python3.7/config \
 # Auto-update ctags files:
 # git clone git://github.com/craigemery/vim-autotag.git ~/.vim/bundle/vim-autotag
+
+
+#		&& rm -f ~/.vim && ln -s $(BUILDDIR)/vim/runtime ~/.vim \
+#		&& dir=Vundle.vim \
+#		&& if [ ! -d ~/.vim/bundle/$$dir ];then \
+#		   git clone https://github.com/gmarik/$$dir.git ~/.vim/bundle/$$dir ;\
+#			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi \
+#		&& dir=YouCompleteMe;if [ ! -d ~/.vim/bundle/$$dir ];then \
+#		   git clone https://github.com/Valloric/$$dir.git ~/.vim/bundle/$$dir ;\
+#			 else cd ~/.vim/bundle/$$dir;git pull;cd ..;fi && cd $$dir && \
+#			 git submodule update --init --recursive && ./install.py --all && cd .. \
+#		&& if [ ! -d ~/.vim/pack/plugins/start/vim-go ]; then \
+#		     git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go; \
+#		   else \
+#	         cd ~/.vim/pack/plugins/start/vim-go && git pull && cd .. ; \
+#		   fi \
+#	    && dir=$$HOME/.vim/pack/plugins/start/vim-terraform && \
+#	   	   if [ ! -d $${dir} ]; then \
+#		   	 git clone https://github.com/hashivim/vim-terraform.git $${dir}; \
+#		   else \
+#		   	 cd  $${dir} && git pull && cd - ; \
+#		   fi \
