@@ -14,7 +14,6 @@ for pkg in \
     cargo-edit     \
     cargo-expand   \
     cargo-watch    \
-    crates-mirror  \
     grcov    \
     rustlings    \
     rusty-tags \
@@ -27,4 +26,4 @@ done
 
 
 
-
+# crates-mirror
