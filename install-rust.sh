@@ -8,6 +8,7 @@ fi
 
 # In order to use `cargo +nightly expand`
 rustup toolchain install nightly --allow-downgrade
+rustup component add rust-analyzer
 
 export PATH=$HOME/.cargo/bin:$PATH
 
@@ -25,7 +26,11 @@ for pkg in \
 ; do
     cargo install ${pkg}
 done
-
-
-
 # crates-mirror
+
+if ! which lldb; then
+    echo "Install LLDB ..."
+    sudo apt install lldb
+fi
+
+set +ex
