@@ -2,8 +2,9 @@
 
 set -ex
 
-# rustup
-curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs | sh
+if ! which rustup; then
+    curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs | sh
+fi
 
 # In order to use `cargo +nightly expand`
 rustup toolchain install nightly --allow-downgrade
