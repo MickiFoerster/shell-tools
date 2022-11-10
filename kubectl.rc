@@ -1,7 +1,7 @@
 function k() {
-    if minikube status | grep -q "host: Running"; then
+    if minikube status | grep -q "host: Running" 1>/dev/null 2>&1; then
         minikube kubectl $@
-    elif microk8s status | head -n1 | grep -q "microk8s is running"; then
+    elif microk8s status | head -n1 | grep -q "microk8s is running" 1>/dev/null 2>&1; then
         microk8s kubectl $@
     else
         echo "error: no minikube and no microk8s is running"
