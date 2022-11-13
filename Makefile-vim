@@ -31,10 +31,6 @@ vim : uninstallsystemvim
 								--prefix=/usr/local \
 		&& make VIMRUNTIMEDIR=/usr/local/share/vim/vim82 \
 		&& echo "Build successful, now install into /usr/local" \
-		&& find $(BUILDDIR)/vim -name "dir has spaces" -exec rm -rf "{}" \; \
-		&& if [ -d /usr/local/share/vim ]; then \
-		       find /usr/local/share/vim -name "dir has spaces" -exec rm -rf "{}" \;  ; \
-		   fi \
 		&& sudo make install \
 		&& sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1 \
 		&& sudo update-alternatives --set editor /usr/local/bin/vim \
