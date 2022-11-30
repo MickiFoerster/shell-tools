@@ -3,7 +3,9 @@
 set -ex
 
 #sudo snap install docker
-sudo apt-get remove docker docker-engine docker.io containerd runc
+for i in docker docker-engine docker.io containerd runc ; do 
+    sudo apt-get remove $i  || true
+done
 sudo apt-get update
 sudo apt-get install     ca-certificates     curl     gnupg     lsb-release
 sudo mkdir -p /etc/apt/keyrings
@@ -40,6 +42,7 @@ gpg2 --gen-key
 pass init "$(git config --global user.name)"
 
 # Set configuration to use encrypted password
+mkdir -p ~/.docker
 sed -i '0,/{/s/{/{\n\t"credsStore": "pass",/' ~/.docker/config.json
 
 set +ex
