@@ -1,0 +1,4 @@
+function show_dns_server() {
+	nmcli | /usr/bin/grep -A3 "^DNS configuration" | grep "servers:" | sed "s#.*servers: ##"
+}
+
