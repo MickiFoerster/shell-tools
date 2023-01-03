@@ -73,6 +73,10 @@ let g:NERDTreeDirArrowCollapsible="~"
 
 " Set CR as key for taking selection in autocomplete
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+map <C-h>  :tabprevious<CR>
+map <C-l>  :tabnext<CR>
+
 EOM
 
 cd -
