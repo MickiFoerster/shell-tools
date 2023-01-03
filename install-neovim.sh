@@ -71,6 +71,8 @@ nmap <F8> :TagbarToggle<CR>
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
 
+" Set CR as key for taking selection in autocomplete
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 EOM
 
 cd -
