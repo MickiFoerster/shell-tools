@@ -3,8 +3,8 @@
 set -ex
 
 cd /tmp
-curl -LO https://github.com/GoogleContainerTools/skaffold/releases/download/v2.0.3/skaffold-linux-amd64
-curl -LO https://github.com/GoogleContainerTools/skaffold/releases/download/v2.0.3/skaffold-linux-amd64.sha256
+curl -LO https://github.com/GoogleContainerTools/skaffold/releases/download/v2.0.4/skaffold-linux-amd64
+curl -LO https://github.com/GoogleContainerTools/skaffold/releases/download/v2.0.4/skaffold-linux-amd64.sha256
 sha256sum --check skaffold-linux-amd64.sha256
 
 mkdir -p ~/bin
