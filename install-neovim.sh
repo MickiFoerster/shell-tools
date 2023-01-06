@@ -157,7 +157,7 @@ export PATH=$PATH:$HOME/programs/nvim-linux64/bin
 
 mkdir -p $HOME/.config
 rm -rf $HOME/.config/nvim
-git clone https://github.com/MickiFoerster/config-nvim.git nvim
+git clone https://github.com/MickiFoerster/config-nvim.git $HOME/.config/nvim
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
