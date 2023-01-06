@@ -159,8 +159,12 @@ mkdir -p $HOME/.config
 rm -rf $HOME/.config/nvim
 git clone https://github.com/MickiFoerster/config-nvim.git $HOME/.config/nvim
 
+rm -rf ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 nvim +PackerSync
+
+# For TreeSitter plugin, see  https://github.com/nvim-treesitter/nvim-treesitter#adding-parsers
+cargo install tree-sitter-cli
 
 set +ex 
