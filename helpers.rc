@@ -2,3 +2,8 @@ function show_dns_server() {
 	nmcli | /usr/bin/grep -A3 "^DNS configuration" | grep "servers:" | sed "s#.*servers: ##"
 }
 
+ln -sf $(which alacritty)      a
+ln -sf $(which google-chrome)  g
+ln -sf $(which signal-desktop) s
+ln -sf $(which terminator)     t
+
