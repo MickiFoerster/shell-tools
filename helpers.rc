@@ -8,4 +8,4 @@ ln -sf $(which google-chrome)  g
 ln -sf $(which signal-desktop) s
 ln -sf $(which terminator)     t
 ln -sf $(which nautilus)       n
-
+cd -
