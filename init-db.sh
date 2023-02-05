@@ -59,6 +59,7 @@ until psql -h "localhost" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q' 
 done
 >&2 echo "Postgres is up and running on port ${DB_PORT}!"
 
+export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}
 echo "Remember so set the following env variable:"
 echo "export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}"
 echo "export PGHOST=localhost"
