@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 CONTAINER_NAME=postgres-for-testing
 
@@ -32,13 +32,12 @@ if docker container ls | grep -q ${CONTAINER_NAME}; then
 fi
 
 # Start docker container
-docker run \
+gnome-terminal -- docker run \
 -e POSTGRES_USER=${DB_USER} \
 -e POSTGRES_PASSWORD=${DB_PASSWORD} \
 -e POSTGRES_DB=${DB_NAME} \
 -p "${DB_PORT}":5432 \
 --name "${CONTAINER_NAME}" \
--d \
 --rm \
 postgres:${DOCKER_TAG} \
 postgres -N 2048 # ^ Increased maximum number of connections for testing purposes
