@@ -14,6 +14,11 @@ if ! [ -x "$(command -v sqlx)" ]; then
     cargo install sqlx-cli --no-default-features --features postgres || exit 1
 fi
 
+if [ ! -d migrations ]; then
+    echo "There is no migrations folder in this directory"
+    exit 1
+fi
+
 if [[ "$1" != "" ]]; then
     DOCKER_TAG=$1
 else
@@ -69,9 +74,6 @@ echo "export PGPASSWORD=${DB_PASSWORD}"
 if [ -d migrations ]; then
     sqlx database create
     sqlx migrate run
-else
-    mkdir migrations
-    yes | sqlx database reset
 fi
 >&2 echo "Postgres has been migrated, ready to go!"
 
