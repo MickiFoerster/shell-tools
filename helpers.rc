@@ -117,6 +117,8 @@ EOM
 		--volume $f:/usr/share/nginx/html/index.html \
 		--volume $cfg:/etc/nginx/nginx/conf \
 	       	nginx
+
+	echo "Use 'docker exec -it <container> nginx -s reload' for reloading configuration'
 }
 
 function o() {
