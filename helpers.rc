@@ -2,6 +2,132 @@ function show_dns_server() {
 	nmcli | /usr/bin/grep -A3 "^DNS configuration" | grep "servers:" | sed "s#.*servers: ##"
 }
 
+function start_docker_nginx() {
+	local f=/tmp/nginx-testing-index.html
+	cat <<EOM > $f
+<!DOCTYPE html>
+<html>
+<head>
+<title>Adjusted nginx website!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Put here your testing HTML file</h1>
+<p>
+local development status file
+</p>
+
+</body>
+</html>
+EOM
+
+    local cfg=/tmp/nginx-testing.conf
+    cat <<EOM >$cfg
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        #access_log  /var/log/nginx/host.access.log  main;
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+}
+
+EOM
+
+
+	cat <<EOM 
+Starting nginx docker container with $f as index.html and 
+$cfg as /etc/nginx/nginx.conf
+EOM
+
+	docker container run \
+		--publish 80:80 \
+		--detach \
+		--rm \
+		--volume $f:/usr/share/nginx/html/index.html \
+		--volume $cfg:/etc/nginx/nginx/conf \
+	       	nginx
+}
+
+function o() {
+	if [[ "$1" == "" ]]; then
+		echo "Give name of file to search in PATH as parameter"
+		return 1
+	fi
+	nvim $(which $1)
+}
+
+
 ln -sf $(which alacritty)      $HOME/bin/a
 ln -sf $(which google-chrome)  $HOME/bin/g
 ln -sf $(which signal-desktop) $HOME/bin/s
