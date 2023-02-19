@@ -19,9 +19,7 @@ if [ ! -d migrations ]; then
     exit 1
 fi
 
-if [[ "$1" != "" ]]; then
-    DOCKER_TAG=$1
-else
+if [[ "${DOCKER_TAG}" == "" ]]; then
     DOCKER_TAG=latest
 fi
 
@@ -76,6 +74,13 @@ if [ -d migrations ]; then
     sqlx migrate run
 fi
 >&2 echo "Postgres has been migrated, ready to go!"
+
+
+if [[ "${FIXTURES}" != "" ]]; then
+    if [[ -d "${FIXTURES}" ]]; then
+        cat "${FIXTURES}/*" | psql
+    fi
+fi
 
 # start pgAdmin4 container
 #docker run -p 80:80 \
