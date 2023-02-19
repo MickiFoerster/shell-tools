@@ -78,7 +78,7 @@ fi
 
 if [[ "${FIXTURES}" != "" ]]; then
     if [[ -d "${FIXTURES}" ]]; then
-        cat "${FIXTURES}/*" | psql
+	cd ${FIXTURES} && cat * | psql && cd - 
     fi
 fi
 
