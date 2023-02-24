@@ -9,7 +9,9 @@ mv get_helm.sh.tmp get_helm.sh
 chmod 700 get_helm.sh
 ./get_helm.sh
 
-helm repo add stable https://charts.helm.sh/stable
+#helm repo add stable https://charts.helm.sh/stable
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
 
 helm search repo redis
 
