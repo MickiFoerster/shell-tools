@@ -2,7 +2,9 @@
 
 set -ex
 
-sudo snap install microk8s --classic --channel=1.25
+sudo snap remove microk8s | true
+#sudo snap install microk8s --classic --channel=1.25
+sudo snap install microk8s --classic 
 sudo usermod -a -G microk8s $USER
 #newgrp microk8s
 sudo chown -f -R $USER ~/.kube
