@@ -129,9 +129,21 @@ function o() {
 	nvim $(which $1)
 }
 
+function create_shortcut() {
+	target=$1
+	shortcut=$2
+	if [[ "${target}" == "" ]]; then
+		echo "error: target empty"
+		return 1
+	fi
+	if [[ "${shortcut}" == "" ]]; then
+		echo "error: shortcut empty"
+		return 1
+	fi
+	if [[ "$(which ${target})" != "" ]]; then
+		ln -sf $(which ${target})      $HOME/bin/${shortcut} && echo "shortcut ${shortcut} created"
+	else
+		echo "${target} not found"
+	fi
+}
 
-ln -sf $(which alacritty)      $HOME/bin/a
-ln -sf $(which google-chrome)  $HOME/bin/g
-ln -sf $(which signal-desktop) $HOME/bin/s
-ln -sf $(which terminator)     $HOME/bin/t
-ln -sf $(which nautilus)       $HOME/bin/n
