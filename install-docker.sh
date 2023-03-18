@@ -20,7 +20,7 @@ docker run hello-world
 
 
 # docker-compose
-curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)"  > docker-compose.bin
+curl -L "https://github.com/docker/compose/releases/download/2.16.0/docker-compose-$(uname -s)-$(uname -m)"  > docker-compose.bin
 chmod +x docker-compose.bin
 mv docker-compose.bin ~/bin/docker-compose
 
