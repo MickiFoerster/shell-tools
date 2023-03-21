@@ -24,6 +24,10 @@ chmod 755 /tmp/get-docker.sh
 bash /tmp/get-docker.sh
 
 
+# bash completion
+sudo ln -s /usr/share/bash-completion/completions/docker /etc/bash_completion.d/docker
+
+
 # docker-compose
 curl -L "https://github.com/docker/compose/releases/download/2.16.0/docker-compose-$(uname -s)-$(uname -m)"  > docker-compose.bin
 chmod +x docker-compose.bin
