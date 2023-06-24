@@ -1,3 +1,7 @@
+function cdr() {
+    while [[ ! -d .git ]]; do cd ..; done
+}
+
 function dockerfiles() {
     nvim -O $(find -name Dockerfile -type f)
 }
