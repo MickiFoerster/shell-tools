@@ -10,6 +10,7 @@ python3 -m venv machine-learning
 pip install numpy
 pip install matplotlib
 pip install pandas
+pip install sklearn
 
 
 set +ex
