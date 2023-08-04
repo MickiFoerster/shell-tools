@@ -23,6 +23,8 @@ curl -LO https://github.com/protocolbuffers/protobuf-go/releases/download/v1.31.
 tar xf protoc-gen-go.v1.31.0.linux.amd64.tar.gz
 install protoc-gen-go $HOME/bin/
 
+cargo install protobuf-codegen
+
 go get -u google.golang.org/grpc
 
 set +ex
