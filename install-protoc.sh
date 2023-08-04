@@ -16,4 +16,13 @@ if [[ "$(which protoc)" != "$HOME/bin/protoc" ]]; then
     exit 1
 fi
 
+# additional plugins
+#go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+curl -LO https://github.com/protocolbuffers/protobuf-go/releases/download/v1.31.0/protoc-gen-go.v1.31.0.linux.amd64.tar.gz
+tar xf protoc-gen-go.v1.31.0.linux.amd64.tar.gz
+install protoc-gen-go $HOME/bin/
+
+go get -u google.golang.org/grpc
+
 set +ex
