@@ -25,6 +25,12 @@ HEADER_PAYLOAD=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6IjAwMDEifQ.eyJuYW1lIj
 # Sign header+payload with symmetric key 'fantasticjwt'
 echo -n $HEADER_PAYLOAD | openssl dgst -binary -sha256 -hmac fantasticjwt | base64 | tr '+/' '-_' | tr -d '='
 # ggVOHYnVFB8GVPE-VOIo3jD71gTkLffAY0hQOGXPL2I
+#
+# sign with RSA private key:
+# echo -n "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFUzI1NmluT1RBIiwibmFtZSI6IkpvaG4gRG9lIn0" | \
+#   openssl dgst -sha256 -binary -sign jwtRSA256-private.pem  | \
+#   openssl enc -base64 | 
+#   tr -d '\n=' | tr -- '+/' '-_'
 
 # Bring everything together:
 echo $HEADER_PAYLOAD.ggVOHYnVFB8GVPE-VOIo3jD71gTkLffAY0hQOGXPL2I > quotes.jwt
