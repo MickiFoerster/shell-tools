@@ -16,7 +16,6 @@ export PATH=$HOME/.cargo/bin:$PATH
 for pkg in \
     cargo-cranky   \
     cargo-edit     \
-    cargo-expand   \
     cargo-nextest   \
     cargo-watch    \
     grcov    \

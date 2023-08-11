@@ -29,9 +29,7 @@ sudo ln -s /usr/share/bash-completion/completions/docker /etc/bash_completion.d/
 
 
 # docker-compose
-curl -L "https://github.com/docker/compose/releases/download/2.16.0/docker-compose-$(uname -s)-$(uname -m)"  > docker-compose.bin
-chmod +x docker-compose.bin
-mv docker-compose.bin ~/bin/docker-compose
+install-docker-compose.sh
 
 # docker-credential-pass
 sudo apt install pass
