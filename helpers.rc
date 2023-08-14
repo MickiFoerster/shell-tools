@@ -1,4 +1,4 @@
-alias gitdiff=`git difftool -x "nvim -d -O"'
+alias gitdiff='git difftool -x "nvim -d -O"'
 alias gd=gitdiff
 
 function start_splash_docker() {
