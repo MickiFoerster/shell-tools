@@ -1,6 +1,10 @@
 alias gitdiff='git difftool -x "nvim -d -O"'
 alias gd=gitdiff
 
+function cargo_build_for_target_bullseye() {
+    docker run --rm --user "$(id -u)":"$(id -g)" -v "$PWD":/usr/src/myapp -w /usr/src/myapp rust:bullseye cargo build --release
+}
+
 function start_splash_docker() {
     gnome-terminal -- docker run -it -p 8050:8050 scrapinghub/splash
 }
