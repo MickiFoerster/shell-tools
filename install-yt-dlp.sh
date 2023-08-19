@@ -1,8 +1,24 @@
 #!/bin/bash
-#
-set -ex
-cd /tmp
-curl -LO "https://github.com/yt-dlp/yt-dlp/releases/download/2023.03.04/yt-dlp_linux"
-chmod 755 yt-dlp_linux
-mv yt-dlp_linux ~/bin/yt-dlp
-set +ex
+
+set -ex 
+
+cd $HOME || exit 1
+
+python -m venv python-venv-yt-dlp
+
+source ./python-venv-yt-dlp/bin/activate
+
+python -m pip install yt-dlp
+
+echo "For automatic loading the venv you can use for example:"
+cat <<EOM
+
+function yt-dlp() {
+    if ! echo \$PS1 | grep -q python-venv-yt-dlp; then
+        source \$HOME/python-venv-yt-dlp/bin/activate
+    fi
+    unset -f yt-dlp
+    yt-dlp \$@
+}
+
+EOM
