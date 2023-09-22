@@ -1,3 +1,18 @@
+# Toogle switch between keyboard layouts
+setxkbmap -layout "us,de" -option "grp:lwin_switch"
+
+function gm() {
+   lst=$(git status | grep "modified:" | sed "s#modified:##")
+   echo "opening ${lst}"
+   nvim -p ${lst}
+}
+function gmo() {
+   lst=$(git status | grep "modified:" | sed "s#modified:##")
+   echo "opening ${lst}"
+   nvim -O ${lst}
+}
+
+alias gs='git status'
 alias gitdiff='git difftool -x "nvim -d -O"'
 alias gd=gitdiff
 
