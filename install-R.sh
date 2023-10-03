@@ -14,4 +14,7 @@ sudo apt install --no-install-recommends r-base
 
 echo "install.packages('txtplot')" | sudo -i R --no-save
 
+curl -LO https://download1.rstudio.org/electron/jammy/amd64/rstudio-2023.09.0-463-amd64.deb
+sudo dpkg -i rstudio-2023.09.0-463-amd64.deb
+
 set +ex
