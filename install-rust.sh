@@ -23,6 +23,7 @@ export PATH=$HOME/.cargo/bin:$PATH
 for pkg in \
     cargo-audit \
     cargo-cranky   \
+    cargo-expand \
     cargo-nextest   \
     cargo-watch    \
     grcov    \
@@ -31,7 +32,7 @@ for pkg in \
     sea-orm-cli    \
     sqlx-cli    \
     tokio-console    \
-    cargo -tarpaulin \
+    cargo-tarpaulin \
     ; do
     cargo install ${pkg}
 done
