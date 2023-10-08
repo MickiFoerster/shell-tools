@@ -8,14 +8,21 @@ fi
 
 # In order to use `cargo +nightly expand`
 rustup toolchain install nightly --allow-downgrade
-rustup component add rust-analyzer
+
+for i in \
+    rustfmt \
+    clippy  \
+    rust-analyzer \
+    ; do
+    rustup component add $i
+done
 
 export PATH=$HOME/.cargo/bin:$PATH
 
 # cargo packages
 for pkg in \
+    cargo-audit \
     cargo-cranky   \
-    cargo-edit     \
     cargo-nextest   \
     cargo-watch    \
     grcov    \
@@ -24,10 +31,12 @@ for pkg in \
     sea-orm-cli    \
     sqlx-cli    \
     tokio-console    \
-; do
+    cargo -tarpaulin \
+    ; do
     cargo install ${pkg}
 done
 # crates-mirror
+# cargo-edit   cargo add is now inside cargo command itself
 
 if ! which lldb; then
     echo "Install LLDB ..."
