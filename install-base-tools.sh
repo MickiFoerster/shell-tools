@@ -14,4 +14,7 @@ sudo apt install -y \
 	vim \
 	wget \
     htop \
+    libncurses-dev \
+    libssh-dev \
+    libssl-dev \
 ;
