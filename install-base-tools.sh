@@ -17,4 +17,5 @@ sudo apt install -y \
     libncurses-dev \
     libssh-dev \
     libssl-dev \
+    sshfs \
 ;
