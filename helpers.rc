@@ -25,7 +25,7 @@ function start_splash_docker() {
 }
 
 function cdr() {
-    while [[ ! -d .git ]]; do cd ..; done
+    while [[ "${PWD}" != "/" && ! -d .git ]]; do cd ..; done
 }
 
 function dockerfiles() {
