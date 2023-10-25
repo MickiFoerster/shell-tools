@@ -17,5 +17,8 @@ sudo apt install -y \
     libncurses-dev \
     libssh-dev \
     libssl-dev \
+    mpv \ 
+    openssh-server \
     sshfs \
+    vlc \ 
 ;
