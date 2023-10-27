@@ -1,6 +1,25 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+function generate-gocode-from-openapi-spec() {
+    if [[ "$1" == "" ]]; then 
+        echo "no input file given"
+        return 1
+    fi
+    if [[ ! -f $1 ]]; then 
+        echo "$1 is not a file"
+        return 1
+    fi
+    if ! jq . $1 > /dev/null; then
+        echo "$1 contains invalid JSON"
+        return 1
+    fi
+
+    npm install @openapitools/openapi-generator-cli -g
+    openapi-generator-cli generate -i $1 -g go -o go_output
+    echo "Go code was generated in directory go_output"
+}
+
 function gm() {
    lst=$(git status | grep "modified:" | sed "s#modified:##")
    echo "opening ${lst}"
