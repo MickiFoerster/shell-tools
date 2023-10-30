@@ -6,15 +6,14 @@ cd /tmp || exit 1
 
 curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${VERSION}/protoc-${VERSION}-linux-x86_64.zip 
 
-mkdir -p $HOME/bin
-mkdir -p $HOME/include
+t=$HOME/programs/protoc
+mkdir -p $t
 
-unzip -o -d $HOME protoc-${VERSION}-linux-x86_64.zip 
+unzip -o -d $t protoc-${VERSION}-linux-x86_64.zip 
 
-if [[ "$(which protoc)" != "$HOME/bin/protoc" ]]; then 
-    echo "installed version of protoc collides with $(which protoc)"
-    exit 1
-fi
+echo "Installed protoc to $t"
+echo "Make sure to inclue $t to PATH env variable"
+echo "export PATH=\$PATH:$t"
 
 # additional plugins
 #go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
