@@ -1,6 +1,14 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+function python-plot-csv() {
+    if ! dpkg -l python3-pandas python3-matplotlib python3-numpy 1>/dev/null ; then 
+        sudo apt install -y python3-pandas python3-matplotlib python3-numpy 
+    fi
+
+    plot-csv.py $1
+}
+
 function generate-gocode-from-openapi-spec() {
     if [[ "$1" == "" ]]; then 
         echo "no input file given"
