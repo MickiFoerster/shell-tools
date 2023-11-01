@@ -1,6 +1,31 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+function R-plot-csv() {
+    if [[ "$1" == "" ]]; then 
+        echo "Give CSV file as parameter"
+        exit 1
+    fi
+
+    if [[ ! -f "$1" ]]; then 
+        echo "$i is not a file"
+        exit 1
+    fi
+
+    x=$(head -n1 "$1" | cut -d, -f1)
+    y=$(head -n1 "$1" | cut -d, -f2 | tr -d '\r' | tr -d '\n')
+
+    cat <<EOM 
+
+    dataset <- read.csv("$1")
+
+    library(ggplot2)
+
+    ggplot() + geom_point(aes(x = dataset\$$x, y = dataset\$$y))
+
+    EOM
+}
+
 function python-plot-csv() {
     if ! dpkg -l python3-pandas python3-matplotlib python3-numpy 1>/dev/null ; then 
         sudo apt install -y python3-pandas python3-matplotlib python3-numpy 
