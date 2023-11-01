@@ -23,7 +23,7 @@ function R-plot-csv() {
 
     ggplot() + geom_point(aes(x = dataset\$$x, y = dataset\$$y))
 
-    EOM
+EOM
 }
 
 function python-plot-csv() {
