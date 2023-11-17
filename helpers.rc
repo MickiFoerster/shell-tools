@@ -1,6 +1,10 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+function docker-prune-all() {
+    docker system prune --all --volumes --force
+}
+
 function R-plot-csv() {
     if [[ "$1" == "" ]]; then 
         echo "Give CSV file as parameter"
