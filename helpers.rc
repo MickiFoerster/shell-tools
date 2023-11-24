@@ -71,6 +71,7 @@ function gmo() {
 alias gs='git status'
 alias gitdiff='git difftool -x "nvim -d -O"'
 alias gd=gitdiff
+alias cw='cargo watch -qcx'
 
 function cargo_build_for_target_bullseye() {
     docker run --rm --user "$(id -u)":"$(id -g)" -v "$PWD":/usr/src/myapp -w /usr/src/myapp rust:bullseye cargo build --release
