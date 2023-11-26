@@ -1,6 +1,71 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+function plot-file() {
+    if [[ "$1" == "" ]]; then 
+        echo "Give name of file with values to plot as argument"
+        return 1
+    fi
+    if [[ ! -f "$1" ]]; then 
+        echo "$1 is not a common file"
+        return 1
+    fi
+
+    if command -v octave > /dev/null; then 
+        cat <<EOM | octave
+data=load("$1");
+plot(data);
+print -dpng "$1.octave.png"
+EOM
+
+        echo "$1.octave.png was created"
+    fi
+
+    if command -v gnuplot > /dev/null; then 
+        cat <<EOM | gnuplot
+set term png
+set output "$1.gnuplot.png"
+plot "$1"
+EOM
+
+        echo "$1.gnuplot.png was created"
+    fi
+
+    if command -v python > /dev/null; then 
+        if echo "import matplotlib" | python; then 
+
+        cat <<EOM | python
+
+import matplotlib.pyplot as plt
+
+with open('$1', 'r') as file:
+    data = file.readlines()
+
+values = [float(line.strip()) for line in data]
+
+plt.plot(values)
+plt.savefig('$1.matplotlib.png')
+
+EOM
+
+        echo "$1.matplotlib.png was created"
+
+        fi
+    fi
+
+    if command -v R > /dev/null; then 
+        cat <<EOM | R --save 1>/dev/null 2>&1
+
+data <- scan("$1")
+plot(data, type = "l", main = "Your Plot Title", xlab = "X-axis Label", ylab = "Y-axis Label")
+
+EOM
+
+        mv Rplots.pdf "$1.R.pdf"
+        echo "$1.R.pdf was created"
+    fi
+}
+
 function docker-prune-all() {
     docker system prune --all --volumes --force
 }
