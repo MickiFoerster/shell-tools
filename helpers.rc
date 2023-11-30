@@ -1,6 +1,44 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+function grep_files() {
+    if [ "$1" == "" ]; then
+        echo "error: no extension to search of was given as parameter"
+        return
+    fi
+    if [ "$2" == "" ]; then
+        echo "error: no pattern to search of was given as parameter"
+        return
+    fi
+    find -type f -name "*.$1" -exec grep -Hn --color=auto "$2" {} \;
+}
+
+function start-trash-db() {
+    set -x 
+    set -e
+    export POSTGRES_USER="postgres"
+    export POSTGRES_PASSWORD="password"
+    export POSTGRES_HOST=localhost
+    export POSTGRES_PORT=5432
+    export PGUSER=${POSTGRES_USER}
+    export PGPASSWORD=${POSTGRES_PASSWORD}
+    export PGHOST=${POSTGRES_HOST}
+    export DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres
+
+    gnome-terminal -- \
+    docker run  \
+        -e POSTGRES_USER=${POSTGRES_USER} \
+        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+        -e POSTGRES_HOST=${POSTGRES_HOST} \
+        -e POSTGRES_PORT=${POSTGRES_PORT} \
+        -p ${POSTGRES_PORT}:${POSTGRES_PORT} \
+        --rm \
+        --name trash_db \
+      postgres -N 1024 -B 4096
+    set +x
+}
+
+
 function plot-file() {
     if [[ "$1" == "" ]]; then 
         echo "Give name of file with values to plot as argument"
