@@ -14,7 +14,6 @@ function grep_files() {
 }
 
 function start-trash-db() {
-    set -x 
     set -e
     export POSTGRES_USER="postgres"
     export POSTGRES_PASSWORD="password"
@@ -24,6 +23,10 @@ function start-trash-db() {
     export PGPASSWORD=${POSTGRES_PASSWORD}
     export PGHOST=${POSTGRES_HOST}
     export DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres
+
+    if docker ps | grep -q trash_db; then 
+        docker kill trash_db
+    fi
 
     gnome-terminal -- \
     docker run  \
@@ -35,7 +38,14 @@ function start-trash-db() {
         --rm \
         --name trash_db \
       postgres -N 1024 -B 4096
-    set +x
+
+    while ! pg_isready; do 
+        echo "database is not ready yet. Take a nap ..."
+        sleep 1
+    done
+    if [[ -d migrations ]]; then 
+        cargo sqlx database setup
+    fi
 }
 
 
