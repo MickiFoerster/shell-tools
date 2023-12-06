@@ -44,7 +44,7 @@ function start-trash-db() {
         sleep 1
     done
     if [[ -d migrations ]]; then 
-        cargo sqlx database setup
+        echo "cargo sqlx database setup" | bash
     fi
 }
 
