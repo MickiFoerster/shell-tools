@@ -181,6 +181,7 @@ function gmo() {
    nvim -O ${lst}
 }
 
+alias p='python3'
 alias gs='git status'
 alias gitdiff='git difftool -x "nvim -d -O"'
 alias gd=gitdiff
