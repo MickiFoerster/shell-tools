@@ -1,6 +1,15 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+function docs.rs() {
+    if [[ "$1" == "" ]]; then 
+        echo "Give crate as argument, e.g. axum"
+        return 1
+    fi
+
+    g --new-window https://docs.rs/$1/latest
+}
+
 function grep_files() {
     if [ "$1" == "" ]; then
         echo "error: no extension to search of was given as parameter"
