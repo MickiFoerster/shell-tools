@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.21.0
+VERSION=1.21.5
 
 set -ex
 cd /tmp

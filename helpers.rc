@@ -1,6 +1,8 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
+source grafana-links.sh
+
 function docs.rs() {
     if [[ "$1" == "" ]]; then 
         echo "Give crate as argument, e.g. axum"
