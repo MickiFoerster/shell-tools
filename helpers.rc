@@ -59,6 +59,13 @@ function start-trash-db() {
     fi
 }
 
+function stop-all-trash-dbs() {
+    while docker container ls | grep -q trash_db; do
+        local dbs=$(docker container ls | grep trash_db | cut -d' ' -f1)
+        docker kill ${dbs}
+        sleep 0.2
+    done
+}
 
 function plot-file() {
     if [[ "$1" == "" ]]; then 
