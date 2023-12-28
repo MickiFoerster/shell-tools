@@ -54,8 +54,10 @@ function start-trash-db() {
         echo "database is not ready yet. Take a nap ..."
         sleep 1
     done
+
     if [[ -d migrations ]]; then 
-        echo "cargo sqlx database setup" | bash
+        echo "cd $PWD && cargo sqlx database setup; read" > /tmp/do-db-migration.sh
+        gnome-terminal -- bash -x /tmp/do-db-migration.sh
     fi
 }
 
