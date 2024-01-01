@@ -2,17 +2,7 @@
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
 source grafana-links.sh
-
-function ml-python-env() {
-    f=$HOME/machine-learning/bin/activate
-    if [[ -f $f ]] ; then 
-        source $f
-    else
-        p=$(realpath $0)
-        d=$(dirname $p)
-        $d/install-python3-venv-machine-learning.sh && source $f
-    fi
-}
+source ml-helpers.sh
 
 function docs.rs() {
     if [[ "$1" == "" ]]; then 
