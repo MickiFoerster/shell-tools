@@ -1,8 +1,10 @@
 # Toogle switch between keyboard layouts
 setxkbmap -layout "us,de" -option "grp:lwin_switch"
 
-source grafana-links.sh
-source ml-helpers.sh
+BASE_DIR=$(dirname $BASH_SOURCE)
+
+source ${BASE_DIR}/grafana-links.sh
+source ${BASE_DIR}/ml-helpers.sh
 
 function docs.rs() {
     if [[ "$1" == "" ]]; then 
