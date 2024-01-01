@@ -1,5 +1,10 @@
 function ml-links() {
     cat <<EOM
+Textbook 'Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow
+- https://github.com/ageron/handson-ml3.git
+- Jupyter Notebook: https://homl.info/colab3
+
+
 Popular open data repositories:
 - https://openml.org
 - https://kaggle.com/datasets
