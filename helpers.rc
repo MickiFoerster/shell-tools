@@ -28,7 +28,6 @@ function grep_files() {
 }
 
 function start-trash-db() {
-    set -e
     export POSTGRES_USER="postgres"
     export POSTGRES_PASSWORD="password"
     export POSTGRES_HOST=localhost
