@@ -50,7 +50,7 @@ function start-trash-db() {
         -p ${POSTGRES_PORT}:${POSTGRES_PORT} \
         --rm \
         --name trash_db \
-      postgres -N 1024 -B 4096
+      postgres -N 128 -B 4096
 
     while ! pg_isready; do 
         echo "database is not ready yet. Take a nap ..."
