@@ -6,7 +6,7 @@ cd /tmp || exit 1
 
 curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v${VERSION}/protoc-${VERSION}-linux-x86_64.zip 
 
-t=$HOME/programs/protoc
+t=$HOME/protoc
 mkdir -p $t
 
 unzip -o -d $t protoc-${VERSION}-linux-x86_64.zip 
