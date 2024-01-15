@@ -4,7 +4,7 @@ URL=https://nodejs.org/dist/v20.10.0/node-v20.10.0-linux-x64.tar.xz
 
 set -ex
 
-rm -rf /home/micki/programs/node-v*
+rm -rf $HOME/programs/node-v*
 
 cd /tmp
 curl -LO ${URL}
