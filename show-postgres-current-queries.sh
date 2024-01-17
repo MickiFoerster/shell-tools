@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-cat <<EOM | psql
+cat <<EOM
 SELECT
 	pid,
 	age(clock_timestamp(), query_start),
