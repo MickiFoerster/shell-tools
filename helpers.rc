@@ -404,8 +404,3 @@ ORDER BY query_start desc;
 
 EOM
 }
-
-if command -v fzf; then 
-    f=/usr/share/doc/fzf/examples/key-bindings.bash
-    if [[ -f $f ]]; then source $f; fi
-fi
