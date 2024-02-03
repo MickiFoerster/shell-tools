@@ -6,6 +6,10 @@ BASE_DIR=$(dirname $BASH_SOURCE)
 source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
 
+function rust_macro_expand() {
+    cargo rustc --profile=check -- -Zunstable-options --pretty=expanded
+}
+
 function docs.rs() {
     if [[ "$1" == "" ]]; then 
         echo "Give crate as argument, e.g. axum"
