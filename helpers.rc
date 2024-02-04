@@ -43,7 +43,13 @@ function start-trash-db() {
     export PGUSER=${POSTGRES_USER}
     export PGPASSWORD=${POSTGRES_PASSWORD}
     export PGHOST=${POSTGRES_HOST}
+    export PGPORT=${POSTGRES_PORT}
+    export PGUSER=${POSTGRES_USER}
     export DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres
+
+    if docker ps | grep -q trash_db_${POSTGRES_PORT}; then 
+        docker kill trash_db_${POSTGRES_PORT}
+    fi
 
     if docker ps | grep -q trash_db; then 
         docker kill trash_db
@@ -54,14 +60,14 @@ function start-trash-db() {
         -e POSTGRES_USER=${POSTGRES_USER} \
         -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
         -e POSTGRES_HOST=${POSTGRES_HOST} \
-        -e POSTGRES_PORT=${POSTGRES_PORT} \
-        -p ${POSTGRES_PORT}:${POSTGRES_PORT} \
+        -p ${POSTGRES_PORT}:5432 \
         --rm \
-        --name trash_db \
+        --name trash_db_${POSTGRES_PORT} \
       postgres -N 64 -B 4096
 
     while ! pg_isready; do 
         echo "database is not ready yet. Take a nap ..."
+        export | grep PG
         sleep 1
     done
 
