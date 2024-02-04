@@ -35,7 +35,11 @@ function start-trash-db() {
     export POSTGRES_USER="postgres"
     export POSTGRES_PASSWORD="password"
     export POSTGRES_HOST=localhost
-    export POSTGRES_PORT=5432
+    if [[ $1 == "" ]]; then 
+        export POSTGRES_PORT=5432
+    else 
+        export POSTGRES_PORT=$1
+    fi
     export PGUSER=${POSTGRES_USER}
     export PGPASSWORD=${POSTGRES_PASSWORD}
     export PGHOST=${POSTGRES_HOST}
@@ -54,7 +58,7 @@ function start-trash-db() {
         -p ${POSTGRES_PORT}:${POSTGRES_PORT} \
         --rm \
         --name trash_db \
-      postgres -N 128 -B 4096
+      postgres -N 64 -B 4096
 
     while ! pg_isready; do 
         echo "database is not ready yet. Take a nap ..."
