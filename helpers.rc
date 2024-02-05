@@ -217,6 +217,8 @@ function gmo() {
    nvim -O ${lst}
 }
 
+alias d=docker
+alias dc=docker-compose
 alias p='python3'
 alias gs='git status'
 alias gitdiff='git difftool -x "nvim -d -O"'
