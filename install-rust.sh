@@ -33,7 +33,7 @@ for pkg in \
     sqlx-cli    \
     tokio-console    \
     cargo-tarpaulin \
-    install-update \
+    cargo-update  \
     ; do
     cargo install ${pkg}
 done
