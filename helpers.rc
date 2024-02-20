@@ -7,7 +7,13 @@ source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
 
 function rust_macro_expand() {
-    cargo rustc --profile=check -- -Zunstable-options --pretty=expanded
+    cat <<EOM
+    # do not use: cargo rustc --profile=check -- -Zunstable-options --pretty=expanded
+#  use either cargo:
+    cargo rustc -- -Zunpretty=expanded 
+# or use rustc directly
+    rustc -Zunpretty=expanded test.rs
+EOM
 }
 
 function docs.rs() {
