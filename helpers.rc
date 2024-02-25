@@ -61,15 +61,26 @@ function start-trash-db() {
         docker kill trash_db
     fi
 
-    gnome-terminal -- \
-    docker run  \
-        -e POSTGRES_USER=${POSTGRES_USER} \
-        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
-        -e POSTGRES_HOST=${POSTGRES_HOST} \
-        -p ${POSTGRES_PORT}:5432 \
-        --rm \
-        --name trash_db_${POSTGRES_PORT} \
-      postgres -N 64 -B 4096
+    if [[ "$2" == "-d" ]]; then 
+        docker run -d \
+            -e POSTGRES_USER=${POSTGRES_USER} \
+            -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+            -e POSTGRES_HOST=${POSTGRES_HOST} \
+            -p ${POSTGRES_PORT}:5432 \
+            --rm \
+            --name trash_db_${POSTGRES_PORT} \
+          postgres -N 64 -B 4096
+    else
+        gnome-terminal -- \
+        docker run  \
+            -e POSTGRES_USER=${POSTGRES_USER} \
+            -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+            -e POSTGRES_HOST=${POSTGRES_HOST} \
+            -p ${POSTGRES_PORT}:5432 \
+            --rm \
+            --name trash_db_${POSTGRES_PORT} \
+          postgres -N 64 -B 4096
+    fi
 
     while ! pg_isready; do 
         echo "database is not ready yet. Take a nap ..."
@@ -77,9 +88,16 @@ function start-trash-db() {
         sleep 1
     done
 
-    if [[ -d migrations ]]; then 
-        echo "cd $PWD && cargo sqlx database setup; read" > /tmp/do-db-migration.sh
-        gnome-terminal -- bash -x /tmp/do-db-migration.sh
+    if [[ "$2" == "-d" ]]; then 
+        if [[ -d migrations ]]; then 
+            echo "cd $PWD && cargo sqlx database setup; read" > /tmp/do-db-migration.sh
+            bash -x /tmp/do-db-migration.sh
+        fi
+    else
+        if [[ -d migrations ]]; then 
+            echo "cd $PWD && cargo sqlx database setup; read" > /tmp/do-db-migration.sh
+            gnome-terminal -- bash -x /tmp/do-db-migration.sh
+        fi
     fi
 }
 
