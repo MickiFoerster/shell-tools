@@ -2,6 +2,10 @@
 
 VERSION=3.11.4
 
+# was needed for _bz2 module for pandas
+# Related to error message "No module named '_bz2'"
+sudo apt-get install libbz2-dev
+
 set -ex
 cd /tmp
 
