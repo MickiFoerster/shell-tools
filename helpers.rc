@@ -444,3 +444,9 @@ ORDER BY query_start desc;
 
 EOM
 }
+
+if command -v minikube >/dev/null ; then 
+    alias k='minikube kubectl --'
+    alias m='minikube'
+fi
+
