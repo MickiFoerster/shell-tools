@@ -3,7 +3,7 @@
 set -ex
 
 cd /tmp/
-VERSION=v1.6.6
+VERSION=v1.8.3
 curl -LO https://github.com/hashicorp/terraform/archive/refs/tags/${VERSION}.tar.gz
 tar xf ${VERSION}.tar.gz 
 cd terraform-*

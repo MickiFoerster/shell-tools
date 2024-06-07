@@ -35,3 +35,23 @@ function ml-python-env() {
         $d/install-python3-venv-machine-learning.sh && source $f
     fi
 }
+
+function ml-header() {
+    cat <<EOM 
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+sns.set()
+
+
+EOM
+}
+
+function ml-sklearn-linear-regression() {
+  ml-header
+  cat <<EOM
+from sklearn.linear_model import LinearRegression
+EOM
+}
