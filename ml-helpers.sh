@@ -55,3 +55,21 @@ function ml-sklearn-linear-regression() {
 from sklearn.linear_model import LinearRegression
 EOM
 }
+
+function ml-sklearn-feature_selection() {
+  cat <<EOM
+from sklearn.feature_selection import f_regression
+EOM
+}
+
+function ml-sklearn-preprocessing() {
+  cat <<EOM
+from sklearn.preprocessing import StandardScaler
+EOM
+}
+
+function ml-sklearn-model_selection() {
+  cat <<EOM
+from sklearn.model_selection import train_test_split
+EOM
+}
