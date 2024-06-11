@@ -64,7 +64,31 @@ EOM
 
 function ml-sklearn-preprocessing() {
   cat <<EOM
+
+# Feature Scaling
 from sklearn.preprocessing import StandardScaler
+
+sc = StandardScaler
+X_train[:, 3:5] = sc.fit_transform(X_train[:, 3:5])
+# Use same scaler as before to test set (no call to fit()!)
+X_test[:, 3:5] = sc.transform(X_test[:, 3:5])
+
+
+# One-Hot-Encoder
+
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+
+col_trans = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [0])], remainder='passthrough')
+X_one_hot_encoded = col_trans.fit_transform(X)
+X_one_hot_encoded
+
+from sklearn.preprocessing import LabelEncoder
+
+le = LabelEncoder()
+y = le.fit_transform(y)
+
+
 EOM
 }
 
@@ -73,3 +97,32 @@ function ml-sklearn-model_selection() {
 from sklearn.model_selection import train_test_split
 EOM
 }
+
+function ml-sklearn-test-train-split() {
+    cat <<EOM
+from sklearn.model_selection import train_test_split
+
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
+
+EOM
+}
+
+function ml-sklearn-metrics() {
+  cat <<EOM
+from sklearn import metrics
+EOM
+}
+
+function ml-sklearn-impute() {
+  cat <<EOM
+from sklearn.impute import SimpleImputer
+EOM
+}
+
+function ml-sklearn-missing_values() {
+    ml-sklearn-impute
+}
+
