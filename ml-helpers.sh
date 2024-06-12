@@ -67,6 +67,7 @@ function ml-sklearn-preprocessing() {
 
 # Feature Scaling
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures
 
 sc = StandardScaler
 X_train[:, 3:5] = sc.fit_transform(X_train[:, 3:5])
@@ -79,7 +80,8 @@ X_test[:, 3:5] = sc.transform(X_test[:, 3:5])
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
-col_trans = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [0])], remainder='passthrough')
+col_to_be_encoded = 0 # first col=0, 2nd col = 1, ...
+col_trans = ColumnTransformer(transformers=[('encoder', OneHotEncoder(), [col_to_be_encoded])], remainder='passthrough')
 X_one_hot_encoded = col_trans.fit_transform(X)
 X_one_hot_encoded
 
@@ -124,5 +126,13 @@ EOM
 
 function ml-sklearn-missing_values() {
     ml-sklearn-impute
+}
+
+function ml-printoptions() {
+  cat <<EOM
+
+  np.set_printoptions(precision=2)
+
+EOM
 }
 
