@@ -6,6 +6,17 @@ BASE_DIR=$(dirname $BASH_SOURCE)
 source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
 
+function airflow-doc-api() {
+    g 'https://airflow.apache.org/docs/apache-airflow/stable/stable-rest-api-ref.html'
+}
+
+function docker-airflow() {
+    cd /tmp/
+    mkdir -p airflow && cd airflow
+    wget 'https://airflow.apache.org/docs/apache-airflow/2.9.1/docker-compose.yaml'
+    docker-compose up -d
+}
+
 function fastapi() {
     cat <<EOM
 # pip install fastapi[all] loguru
