@@ -9,6 +9,9 @@ source ${BASE_DIR}/ml-helpers.sh
 function airflow-doc-api() {
     g 'https://airflow.apache.org/docs/apache-airflow/stable/stable-rest-api-ref.html'
 }
+function airflow-operators() {
+    g 'https://airflow.readthedocs.io/en/stable/_api/airflow/operators/index.html'
+}
 
 function docker-airflow() {
     cd /tmp/
