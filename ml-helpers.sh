@@ -1,3 +1,102 @@
+function logistic_regression() {
+    cat <<EOM
+# load dataframe ...
+df = ...
+# Create a jointplots showing correlations of different feature combinations 
+sns.jointplot(x='Age',y='Area Income',data=df)
+
+sns.jointplot(x='Age', y='Daily Time Spent on Site', data=df, kind='kde')
+
+sns.jointplot(x='Daily Time Spent on Site',y='Daily Internet Usage',data=df,color='green')
+
+
+from sklearn.model_selection import train_test_split
+
+X = df[['Daily Time Spent on Site', 'Age', 'Area Income','Daily Internet Usage', 'Male']]
+y = df['Clicked on Ad']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+logmodel = LogisticRegression()
+logmodel.fit(X_train,y_train)
+
+predictions = logmodel.predict(X_test)
+
+from sklearn.metrics import classification_report
+
+print(classification_report(y_test,predictions))
+
+EOM
+
+}
+
+function linear_regression() {
+    cat <<EOM
+
+df = pd.read_csv('../USA_Housing_toy.csv')
+
+# Show the first five row.
+
+df.head()
+
+# The isnull() method is used to check and manage NULL values in a data frame.
+df.isnull().sum()
+
+
+# Pandas describe() is used to view some basic statistical details of a data frame or a series of numeric values.
+df.describe()
+
+# Pandas info() function is used to get a concise summary of the dataframe.
+df.info()
+
+print(df,5)
+
+sns.pairplot(df)
+
+# distribution of target column 'price'
+sns.displot(df['Price'])
+
+
+# Heatmap to see correlated variables
+df = df.drop(['Address'], axis=1)
+sns.heatmap(df.corr())
+
+# Linear Model
+X = df[['Avg. Area Income', 'Avg. Area House Age', 'Avg. Area Number of Rooms',
+               'Avg. Area Number of Bedrooms', 'Area Population']]
+y = df['Price']
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=101)
+
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+
+# print the intercept
+print(lm.intercept_)
+
+coeff_df = pd.DataFrame(lm.coef_,X.columns,columns=['Coefficient'])
+coeff_df
+
+# Validate model
+predictions = lm.predict(X_test)
+
+# real value and predicted values should be linear correlated
+plt.scatter(y_test,predictions)
+
+# check residual of difference of ytest and predictions
+sns.displot((y_test-predictions),bins=50);
+
+from sklearn import metrics
+
+print('MAE:', metrics.mean_absolute_error(y_test, predictions))
+print('MSE:', metrics.mean_squared_error(y_test, predictions))
+print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, predictions)))
+
+EOM
+
+}
+
 function ml-links() {
     cat <<EOM
 Textbook 'Hands-On Machine Learning with Scikit-Learn, Keras & TensorFlow
