@@ -6,6 +6,17 @@ BASE_DIR=$(dirname $BASH_SOURCE)
 source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
 
+function show_all_passwords() {
+    cat <<EOM
+
+var arr = document.getElementsByTagName("input");
+for (var i = 0; i < arr.length; i++) {
+    if (arr[i].type == 'password') arr[i].setAttribute('type','text');
+}
+
+EOM
+}
+
 function airflow-doc-api() {
     g 'https://airflow.apache.org/docs/apache-airflow/stable/stable-rest-api-ref.html'
 }
