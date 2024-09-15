@@ -3,7 +3,7 @@
 set -ex
 
 cd $HOME
-sudo apt install python3.10-venv
+sudo apt install python3-venv
 python3 -m venv machine-learning
 . ./machine-learning/bin/activate
 
