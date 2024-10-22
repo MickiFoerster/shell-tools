@@ -1,3 +1,69 @@
+function ml-tensorflow-sequential() {
+    cat <<EOM
+
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import load_model
+from tensorflow.keras.layers import Dense, Activation,Dropout
+from tensorflow.keras.constraints import max_norm
+
+model = Sequential()
+model.add(Dense(32, activation='relu')
+model.add(Dropout(0.2))
+
+model.add(Dense(16, activation='relu')
+model.add(Dropout(0.2))
+
+model.add(Dense(8, activation='relu')
+model.add(Dropout(0.2))
+
+model.add(Dense(units=1, activation='sigmoid')
+model.add(Dropout(0.2))
+
+model.compile(loss='binary_crossentropy', optimizer='adam')
+
+# Train model
+model.fit(x=X_train,
+          y=y_train,
+          epochs=1000,
+          validation_data=(X_test, y_test), verbose=1,
+          callbacks=[early_stop]
+      )
+
+# Save model
+model.save('model.keras'))
+
+# evaluation of the model
+pd.DataFrame(model.history.history)[['loss', 'val_loss']].plot()
+
+from sklearn.metrics import classification_report,confusion_matrix
+
+predictions = (model.predict(X_test) > 0.5).astype('int32')
+print(classification_report(y_test,predictions))
+confusion_matrix(y_test,predictions)
+
+EOM
+}
+
+function ml-pandas-one_hot_encoding() {
+    cat <<EOM
+
+dummies = pd.get_dummies(df['enumeration_column'], drop_first=True)
+# remove old column and add one-hot-encoded columns
+df.drop('enumeration_column', axis=1, inplace=True)
+df = pd.concat([df, dummies], axis=1)
+
+EOM
+}
+
+function ml-pandas-show_object_columns() {
+    cat <<EOM
+
+    df.select_dtypes(['object']).columns
+
+EOM
+}
+
 function logistic_regression() {
     cat <<EOM
 # load dataframe ...
@@ -174,6 +240,23 @@ EOM
 function ml-sklearn-preprocessing() {
     cat <<EOM
 
+from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+X_train = scaler.fit_transform(X_train)
+# same as
+# scaler.fit(X_train)
+# X_train = scaler.transform(X_train)
+
+# DON'T fit validation data!!!
+scaler.transform(X_test)
+
+EOM
+}
+
+function ml-sklearn-preprocessing() {
+    cat <<EOM
+
 # Feature Scaling
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
@@ -217,8 +300,12 @@ function ml-sklearn-test-train-split() {
     cat <<EOM
 from sklearn.model_selection import train_test_split
 
+# if labels are stored in last column of dataframe:
 X = df.iloc[:, :-1].values
 y = df.iloc[:, -1].values
+# or you split like here
+X = df.drop('target_column', axis=1).values
+y = df['target_column'].values
 
 X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2, random_state=42)
 
