@@ -1,3 +1,7 @@
+function ml-tensorflow-check-GPU() {
+    python3 -c 'import tensorflow as tf; print(tf.constant([]).device)'
+}
+
 function ml-tensorflow-sequential() {
     cat <<EOM
 
