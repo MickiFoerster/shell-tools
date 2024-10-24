@@ -1,3 +1,16 @@
+function ml-tensorflow-show-evaluation() {
+	cat <<EOM
+
+import matplotlib.pyplot as plt
+
+pd.DataFrame(history.history).plot(figsize=(8, 5))
+plt.grid(True)
+#plt.gca().set_ylim(0, 1)
+plt.show()
+
+EOM
+}
+
 function ml-tensorflow-check-GPU() {
     python3 -c 'import tensorflow as tf; print(tf.constant([]).device)'
 }
@@ -26,12 +39,14 @@ model.add(Dropout(0.2))
 
 model.compile(loss='binary_crossentropy', optimizer='adam')
 
+early_stop_cb = tf.keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True)
+
 # Train model
 model.fit(x=X_train,
           y=y_train,
           epochs=1000,
           validation_data=(X_test, y_test), verbose=1,
-          callbacks=[early_stop]
+          callbacks=[early_stop_cb]
       )
 
 # Save model
@@ -45,6 +60,19 @@ from sklearn.metrics import classification_report,confusion_matrix
 predictions = (model.predict(X_test) > 0.5).astype('int32')
 print(classification_report(y_test,predictions))
 confusion_matrix(y_test,predictions)
+
+# Predict
+X_new = X_test[:3]
+y_proba = model.predict(X_new)
+print(y_proba.round(2))
+
+## Save model
+model.save("classification-model", save_format="tf")
+
+## Load model
+model = tf.keras.models.load_model("classification-model")
+y_proba = model.predict(X_new)
+print(y_proba.round(2))
 
 EOM
 }
