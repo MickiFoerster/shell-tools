@@ -6,6 +6,23 @@ BASE_DIR=$(dirname $BASH_SOURCE)
 source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
 
+function ssh-with-certain-private-key() {
+    if [[ "$1" == "" ]]; then 
+        echo "Please provide private key file as first parameter and remote address as 2nd parameter"
+        return 1
+    fi
+    if [[ ! -f "$1" ]]; then 
+        echo "'$1' does not exist"
+        return 1
+    fi
+    if [[ "$2" == "" ]]; then 
+        echo "Please provide remote address as 2nd parameter"
+        return 1
+    fi
+
+    ssh -i $1 -o "IdentitiesOnly=yes" $2
+}
+
 function show_all_passwords() {
     cat <<EOM
 
