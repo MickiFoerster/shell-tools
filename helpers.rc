@@ -20,7 +20,7 @@ function ssh-with-certain-private-key() {
         return 1
     fi
 
-    ssh -i $1 -o "IdentitiesOnly=yes" $2
+    ssh -i $1 -o StrictHostKeyChecking=no -o "IdentitiesOnly=yes" $2
 }
 
 function show_all_passwords() {
