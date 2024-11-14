@@ -26,6 +26,7 @@ pip install tensorflow[and-cuda]
 # For CUDA 11.8:
 #pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 #pip3 install torch torchvision torchaudio
+pip install tensorflow-serving-api
 
 pip install jupyterlab
 pip install notebook
