@@ -440,6 +440,10 @@ model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
 test_loss, test_accuracy = model.evaluate(x_test, y_test, verbose=2)
 print(f"Test accuracy: {test_accuracy:.4f}")
 
+!zip -r my_mnist_model.zip my_mnist_model.tf
+
+from google.colab import files
+files.download("my_mnist_model.zip")
 
 EOF
 }
