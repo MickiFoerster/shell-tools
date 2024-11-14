@@ -1,3 +1,102 @@
+function ml-tensorflow-show-signature() {
+    if ! command -v saved_model_cli; then
+        echo "failed to find saved_model_cli: wrong venv activated?"
+        exit 1
+    fi
+
+    if [ ! -d "$1" ]; then
+        echo "$1 is not a directory"
+        exit 1
+    fi
+    if [ ! -f "$1/saved_model.pb" ]; then
+        echo "$1 does not contain file saved_model.pb "
+        exit 2
+    fi
+
+    saved_model_cli show --dir $1 --tag_set serve --signature_def serving_default 2>/dev/null
+}
+
+function ml-tensorflow-tfserve() {
+    cat <<EOM
+
+# Prework: put model into /tmp/my_mnist_model.tf/0001
+
+MODEL_DIR=/tmp/my_mnist_model.tf  tensorflow_model_server --ort=8500 --rest_api_port=8501 --model_name=my_mnist_model --model_base_path=/tmp/my_mnist_model.tf
+
+# or start docker container 
+docker run -it --rm \
+    -v "/tmp/my_mnist_model.tf:/models/my_mnist_model" \
+    -p 8500:8500 \
+    -p 8501:8501 \
+    -e MODEL_NAME=my_mnist_model \
+    tensorflow/serving
+
+
+
+###############################################################################
+# Then write query script in Python for REST API:
+import json
+
+X_new = x_test[:3]
+request_json = json.dumps({
+    "signature_name": "serving_default",
+    "instances": X_new.tolist(),
+})
+
+import requests
+
+server_url = "http://localhost:8501/v1/models/my_mnist_model:predict"
+response = requests.post(server_url, data=request_json)
+response.raise_for_status()
+response = response.json()
+
+import numpy as np
+
+y_proba = np.array(response["predictions"])
+y_proba.round(2)
+
+
+###############################################################################
+# Or you write python code to query the gRPC endpoint:
+#
+!pip install -q -U tensorflow-serving-api
+
+# load model, here 0001 is folder where file saved_model.pb lies
+loaded = tf.saved_model.load("/tmp/my_mnist_model.tf/0001")
+infer = loaded.signatures["serving_default"]
+input_names = list(infer.structured_input_signature[1].keys())
+output_names = list(infer.structured_outputs.keys())
+
+from tensorflow_serving.apis.predict_pb2 import PredictRequest
+
+# create gRPC request
+request = PredictRequest()
+request.model_spec.name = "my_mnist_model"
+request.model_spec.signature_name = "serving_default"
+#request.inputs[ model.layers[0].name ].CopyFrom(tf.make_tensor_proto(X_new))
+request.inputs[ input_names[0] ].CopyFrom(tf.make_tensor_proto(tf.cast(X_new, tf.float32)))
+
+# create connection to gRPC endpoint and send request
+import grpc
+from tensorflow_serving.apis import prediction_service_pb2_grpc
+
+channel = grpc.insecure_channel('localhost:8500')
+predict_service = prediction_service_pb2_grpc.PredictionServiceStub(channel)
+response = predict_service.Predict(request, timeout=3.0)
+
+# convert response and show result:
+output_name = output_names[0]
+outputs_proto = response.outputs[output_name]
+y_proba = tf.make_ndarray(outputs_proto)
+y_proba.round(2)
+
+###############################################################################
+
+
+EOM
+
+}
+
 function ml-tensorflow-show-evaluation() {
     cat <<EOM
 
@@ -440,8 +539,16 @@ model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
 test_loss, test_accuracy = model.evaluate(x_test, y_test, verbose=2)
 print(f"Test accuracy: {test_accuracy:.4f}")
 
-!zip -r my_mnist_model.zip my_mnist_model.tf
+# Save model 
+from pathlib import Path
 
+model_name = "my_mnist_model.tf"
+model_version = "0001"
+model_path = Path(model_name) / model_version
+model.export(model_path)
+
+# ONLY for Google Colab
+!zip -r my_mnist_model.zip my_mnist_model.tf
 from google.colab import files
 files.download("my_mnist_model.zip")
 
