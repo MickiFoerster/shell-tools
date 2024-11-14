@@ -1,5 +1,5 @@
 function ml-tensorflow-show-evaluation() {
-	cat <<EOM
+    cat <<EOM
 
 import matplotlib.pyplot as plt
 
@@ -408,4 +408,38 @@ cat_vars = [col for col in train.columns if train[col].dtype == 'object']
 num_vars = [var for var in train.columns if var not in cat_vars and var != train.columns[-1]]
 
 EOM
+}
+
+function ml-tensorflow-mnist() {
+    cat <<EOF
+import tensorflow as tf
+
+# Load the MNIST dataset
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+
+# Preprocess the data
+x_train, x_test = x_train / 255.0, x_test / 255.0  # Normalize the pixel values to [0, 1]
+
+# Define the model
+model = tf.keras.Sequential([
+    tf.keras.layers.Flatten(input_shape=(28, 28)),  # Flatten 28x28 images to 784-dimensional vectors
+    tf.keras.layers.Dense(128, activation='relu'),  # First dense layer with ReLU activation
+    tf.keras.layers.Dense(64, activation='relu'),   # Second dense layer with ReLU activation
+    tf.keras.layers.Dense(10, activation='softmax') # Output layer with softmax activation for 10 classes
+])
+
+# Compile the model
+model.compile(optimizer='adam',                # Optimizer
+              loss='sparse_categorical_crossentropy',  # Loss function for multi-class classification
+              metrics=['accuracy'])            # Metric to monitor
+
+# Train the model
+model.fit(x_train, y_train, epochs=5, validation_data=(x_test, y_test))
+
+# Evaluate the model on test data
+test_loss, test_accuracy = model.evaluate(x_test, y_test, verbose=2)
+print(f"Test accuracy: {test_accuracy:.4f}")
+
+
+EOF
 }

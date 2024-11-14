@@ -8,11 +8,12 @@ if ! dpkg -l python3-venv | /usr/bin/grep "^ii"; then
     sudo apt install python3-venv
 fi
 
+d=python-venv-machine-learning
 if [[ ! -d machine-learning ]]; then
-    python3 -m venv machine-learning
+    python3 -m venv $d
 fi
 
-. ./machine-learning/bin/activate
+. ./$d/bin/activate
 
 pip install --upgrade pip
 pip install numpy
