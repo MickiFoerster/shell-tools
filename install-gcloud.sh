@@ -1,17 +1,17 @@
-#!/bin/bash 
+#!/bin/bash
 
 set -ex
 
 cd /tmp
-curl -LO https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-409.0.0-linux-x86_64.tar.gz
-cat <<EOM >google-cloud-cli-409.0.0-linux-x86_64.tar.gz.sha256
-190da1c45c48e2647795b4f39116ba7b9882deeeef73e7b8a731dc83a6efe10c  google-cloud-cli-409.0.0-linux-x86_64.tar.gz
-EOM
 
-sha256sum --check google-cloud-cli-409.0.0-linux-x86_64.tar.gz.sha256
-mkdir -p ~/programs
-tar -C ~/programs -xf google-cloud-cli-409.0.0-linux-x86_64.tar.gz
+sudo apt-get update
 
-$HOME/programs/google-cloud-sdk/install.sh
+sudo apt-get install apt-transport-https ca-certificates gnupg curl
+
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+sudo apt-get update && sudo apt-get install google-cloud-cli
 
 set +ex
