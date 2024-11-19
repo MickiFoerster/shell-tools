@@ -554,3 +554,96 @@ files.download("my_mnist_model.zip")
 
 EOF
 }
+
+function ml-sklearn-housing_example() {
+	cat <<EOM
+from pathlib import Path
+
+import pandas as pd
+import numpy as np
+import tarfile
+import urllib.request
+
+
+def load_housing_data():
+    tarball_path = Path("datasets/housing.tgz")
+    if not tarball_path.is_file():
+        Path("datasets").mkdir(parents=True, exist_ok=True)
+        url = "https://github.com/ageron/data/raw/main/housing.tgz"
+        urllib.request.urlretrieve(url, tarball_path)
+        with tarfile.open(tarball_path) as housing_tarball:
+            housing_tarball.extractall(path="datasets")
+
+    return pd.read_csv(Path("datasets/housing/housing.csv"))
+
+
+print("Execution starts ...")
+
+housing = load_housing_data()
+
+
+from sklearn.model_selection import train_test_split
+
+housing["income_cat"] = pd.cut(housing["median_income"],
+                               bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
+                               labels=[1, 2, 3, 4, 5])
+
+strat_train_set, strat_test_set = train_test_split(
+    housing, test_size=0.2, stratify=housing["income_cat"], random_state=42)
+
+# Stratification: Ensures that each training and test split has approximately
+# the same proportion of each class or category as the original dataset.
+housing = strat_train_set.drop("median_house_value", axis=1)
+housing_labels = strat_train_set["median_house_value"].copy()
+
+
+
+
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder 
+from sklearn.preprocessing import StandardScaler 
+from sklearn.pipeline import make_pipeline
+
+num_pipeline = make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
+cat_pipeline = make_pipeline(SimpleImputer(strategy="most_frequent"), OneHotEncoder(handle_unknown="ignore"))
+
+from sklearn.compose import make_column_selector, make_column_transformer
+
+preprocessing = make_column_transformer(
+    (num_pipeline, make_column_selector(dtype_include=np.number)), 
+    (cat_pipeline, make_column_selector(dtype_include=object)),
+)
+
+housing_prepared = preprocessing.fit_transform(housing)
+
+
+
+from sklearn.linear_model import LinearRegression
+
+lin_reg = make_pipeline(preprocessing, LinearRegression())
+lin_reg.fit(housing, housing_labels)
+
+
+
+# Evaluate your model on the test set
+
+from sklearn.metrics import root_mean_squared_error
+
+X_test = strat_test_set.drop("median_house_value", axis=1)
+y_test = strat_test_set["median_house_value"].copy()
+
+evaluation_predictions = lin_reg.predict(X_test)
+
+evaluation_rmse = root_mean_squared_error(y_test, evaluation_predictions)
+print(evaluation_rmse)
+
+# Launch, monitor, and maintain your system
+
+# Export model 
+import joblib
+joblib.dump(lin_reg, "housing_model.pkl")
+
+print("model exported successfully")
+
+EOM
+}
