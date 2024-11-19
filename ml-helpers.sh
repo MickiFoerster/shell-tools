@@ -556,7 +556,11 @@ EOF
 }
 
 function ml-sklearn-housing_example() {
-	cat <<EOM
+    cat <<EOM
+# pip install pipreqs
+# pipreqs .
+# ls requirements.txt
+
 from pathlib import Path
 
 import pandas as pd

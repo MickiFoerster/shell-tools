@@ -5,6 +5,7 @@ BASE_DIR=$(dirname $BASH_SOURCE)
 
 source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
+source ${BASE_DIR}/gcp-helpers.sh
 
 function ssh-with-certain-private-key() {
     if [[ "$1" == "" ]]; then 
