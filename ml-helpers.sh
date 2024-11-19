@@ -563,8 +563,9 @@ function ml-sklearn-housing_example() {
 
 from pathlib import Path
 
-import pandas as pd
+import logging
 import numpy as np
+import pandas as pd
 import tarfile
 import urllib.request
 
@@ -581,7 +582,7 @@ def load_housing_data():
     return pd.read_csv(Path("datasets/housing/housing.csv"))
 
 
-print("Execution starts ...")
+logging.info("Execution starts ...")
 
 housing = load_housing_data()
 
@@ -639,15 +640,28 @@ y_test = strat_test_set["median_house_value"].copy()
 evaluation_predictions = lin_reg.predict(X_test)
 
 evaluation_rmse = root_mean_squared_error(y_test, evaluation_predictions)
-print(evaluation_rmse)
+logging.info(f"evaluation root mean squared error: {evaluation_rmse}")
 
 # Launch, monitor, and maintain your system
 
-# Export model 
+# Export model to local system
 import joblib
-joblib.dump(lin_reg, "housing_model.pkl")
+model_name = "model.joblib"
+joblib.dump(lin_reg, model_name)
 
-print("model exported successfully")
+import pickle
+with open("model.pkl", "wb") as file:
+    pickle.dump(model, file)
+
+
+logging.info(f"model exported successfully into file {model_name}")
+
+# Upload model to Google Cloud Storage 
+from google.cloud import storage 
+storage_path = f"gs://ml-playground-441907-linear_regression_bucket/{model_name}"
+
+blob = storage.blob.Blob.from_string(storage_path, client=storage.Client())
+blob.upload_from_filename(model_name)
 
 EOM
 }

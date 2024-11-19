@@ -27,6 +27,9 @@ pip install tensorflow[and-cuda]
 #pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 #pip3 install torch torchvision torchaudio
 pip install tensorflow-serving-api
+pip install pipreqs
+pip install google-cloud
+pip install google-cloud-storage
 
 pip install jupyterlab
 pip install notebook
