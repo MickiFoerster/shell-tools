@@ -37,7 +37,7 @@ Description=Prometheus Node Exporter
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c "/opt/node_exporter-${latest_version}.linux-${ARCH}/node_exporter"
+ExecStart=/bin/bash -c "/opt/node_exporter-${latest_version}.linux-${ARCH}/node_exporter  --web.listen-address=127.0.0.1:9100"
 
 [Install]
 WantedBy=multi-user.target
