@@ -7,6 +7,14 @@ source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
 source ${BASE_DIR}/gcp-helpers.sh
 
+function google_chrome_headless_download_url() {
+    local version=$(google-chrome --version  | sed 's#^Google Chrome ##' | cut -d'.' -f1)
+    f=/tmp/gv.json
+    curl -L 'https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone-with-downloads.json' >$f 2>/dev/null || return 1
+    jq -r ".milestones[\"${version}\"].downloads[\"chrome-headless-shell\"] | .[] | select(.platform == \"linux64\") | .url" $f
+    jq -r ".milestones[\"${version}\"].downloads[\"chromedriver\"] | .[] | select(.platform == \"linux64\") | .url" $f
+}
+
 function ssh-with-certain-private-key() {
     if [[ "$1" == "" ]]; then 
         echo "Please provide private key file as first parameter and remote address as 2nd parameter"
