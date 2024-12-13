@@ -1,19 +1,19 @@
 function mlflow-docker-start() {
     set -ex
 
-    cd /tmp/
-    mkdir -p mlflow-docker && cd $_
+    #cd /tmp/
+    #mkdir -p mlflow-docker && cd $_
     docker pull ghcr.io/mlflow/mlflow
-    mkdir -p ./artifact_store ./metrics_store
+    #mkdir -p ./artifact_store ./metrics_store
+    #-v ./artifact_store:/tmp/artifact_store \
+    #-v ./metrics_store:/tmp/metrics_store \
+    #--backend-store-uri sqlite:////tmp/metrics_store/mlflow.db \
+    #--default-artifact-root /tmp/artifact_store/ \
     docker run \
         --publish 127.0.0.1:5000:5000 \
-        -v ./artifact_store:/tmp/artifact_store \
-        -v ./metrics_store:/tmp/metrics_store \
         --rm \
         ghcr.io/mlflow/mlflow \
         mlflow server \
-        --backend-store-uri sqlite:////tmp/metrics_store/mlflow.db \
-        --default-artifact-root /tmp/artifact_store/ \
         --host 0.0.0.0 \
         --port 5000
 
