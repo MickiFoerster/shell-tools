@@ -379,6 +379,12 @@ function gmo() {
    nvim -O ${lst}
 }
 
+alias gpt='google-chrome https://chatgpt.com'
+alias gemini='google-chrome https://chatgpt.com'
+alias ollama='google-chrome https://ollama.com/'
+alias anthropic='google-chrome https://www.anthropic.com/'
+alias gemini='google-chrome https://gemini.google.com/app'
+
 alias d=docker
 alias dc=docker-compose
 alias p='python3'
