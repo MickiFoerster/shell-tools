@@ -1,23 +1,40 @@
-function mlflow-docker-start() {
-    set -ex
+function mlflow-local-start() {
+    set -x
 
-    #cd /tmp/
-    #mkdir -p mlflow-docker && cd $_
+    cd /tmp/
+    #rm -rf /tmp/mlflow-local
+    mkdir -p mlflow-local && cd $_ && mkdir -p /tmp/mlflow-local/artifact_store /tmp/mlflow-local/metrics_store
+    mlflow server \
+        --backend-store-uri sqlite:////tmp/mlflow-local/metrics_store/mlflow.db \
+        --default-artifact-root /tmp/mlflow-local/artifact_store \
+        --host localhost \
+        --port 5000
+
+    set +x
+}
+
+function mlflow-docker-start() {
+    set -x
+
+    cd /tmp/
+    rm -rf /tmp/mlflow-docker
+    mkdir -p mlflow-docker && cd $_ && mkdir -p /tmp/mlflow-docker/artifact_store /tmp/mlflow-docker/metrics_store
+    chmod 777 /tmp/mlflow-docker -R
     docker pull ghcr.io/mlflow/mlflow
-    #mkdir -p ./artifact_store ./metrics_store
-    #-v ./artifact_store:/tmp/artifact_store \
-    #-v ./metrics_store:/tmp/metrics_store \
-    #--backend-store-uri sqlite:////tmp/metrics_store/mlflow.db \
-    #--default-artifact-root /tmp/artifact_store/ \
     docker run \
+        --user $(id -u) \
+        -v /tmp/mlflow-docker/artifact_store:/artifact_store \
+        -v /tmp/mlflow-docker/metrics_store:/metrics_store \
         --publish 127.0.0.1:5000:5000 \
         --rm \
         ghcr.io/mlflow/mlflow \
         mlflow server \
+        --backend-store-uri sqlite:////metrics_store/mlflow.db \
+        --default-artifact-root /tmp/mlflow-docker/artifact_store \
         --host 0.0.0.0 \
         --port 5000
 
-    set +ex
+    set +x
 }
 
 function ml-tensorflow-show-signature() {
