@@ -380,6 +380,7 @@ function gmo() {
 }
 
 alias gpt='google-chrome https://chatgpt.com'
+alias chatgpt=gpt
 alias gemini='google-chrome https://chatgpt.com'
 alias ollama='google-chrome https://ollama.com/'
 alias anthropic='google-chrome https://www.anthropic.com/'
