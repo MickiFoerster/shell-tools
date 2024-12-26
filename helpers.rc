@@ -5,6 +5,7 @@ BASE_DIR=$(dirname $BASH_SOURCE)
 
 source ${BASE_DIR}/grafana-links.sh
 source ${BASE_DIR}/ml-helpers.sh
+source ${BASE_DIR}/k8s-helpers.sh
 source ${BASE_DIR}/gcp-helpers.sh
 
 function google_chrome_headless_download_url() {
