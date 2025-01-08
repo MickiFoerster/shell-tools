@@ -596,3 +596,7 @@ if command -v minikube >/dev/null ; then
     alias m='minikube'
 fi
 
+if command -v gnome-text-editor > /dev/null; then 
+    alias gedit=gnome-text-editor 
+fi
+
