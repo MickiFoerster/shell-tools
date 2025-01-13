@@ -1,3 +1,25 @@
+function ml-plot-file() {
+    cat <<EOM
+import matplotlib.pyplot as plt
+import sys
+
+if len(sys.argv) < 2:
+    print(f"Usage: python {sys.argv[0]} <filename with numbers to plot>")
+    sys.exit(1)
+
+file_path = sys.argv[1]
+
+with open(file_path, "r") as file:
+    data = [float(line.strip()) for line in file.readlines()]
+
+plt.plot(data)
+plt.title(f"Plot of Numbers from {file_path}")
+plt.xlabel("Index")
+plt.ylabel("Value")
+plt.show()
+EOM
+}
+
 function mlflow-local-start() {
     set -x
 
