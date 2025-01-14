@@ -45,7 +45,7 @@ INSTANCE_ID_RAW=$(aliyun ecs RunInstances \
     --VSwitchId ${VSwitchId} \
     --InstanceName ${INSTANCE_NAME} \
     --InstanceChargeType PostPaid \
-    --InternetMaxBandwidthOut 1 \
+    --InternetMaxBandwidthOut 50 \
     --Password $PASSWORD \
     --SystemDisk.Category cloud_essd \
     --SystemDisk.Size 40)
