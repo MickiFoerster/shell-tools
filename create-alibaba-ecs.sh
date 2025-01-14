@@ -15,7 +15,7 @@ INSTANCE_NAME="ecs_cli_demo"
 #3. Create a Virtual Private Cloud (VPC), a vSwitch, and a security group.
 echo "Creating a VPC..."
 VpcId=$(aliyun vpc CreateVpc --RegionId ${region} --CidrBlock 192.168.0.0/16 | jq -r .VpcId)
-echo VPC ID is '${VpcId}'
+echo "VPC ID is ${VpcId}"
 echo ${VpcId} >vpc.id
 
 printf "Wait status is 'available' ... "
@@ -64,6 +64,13 @@ INSTANCE_ID_QUOTED=$(printf '"%s"' "$INSTANCE_ID")
 aliyun ecs DescribeInstances \
     --RegionId ${region} \
     --InstanceIds "[${INSTANCE_ID_QUOTED}]" \
-    --output cols=InstanceId,InstanceName,InstanceType,ImageId,Status rows=Instances.Instance[]
+    --output cols=InstanceId,InstanceName,InstanceType,ImageId,Status,PublicIpAddress.IpAddress[0] \
+    rows=Instances.Instance[]
 
+ip_address=$(aliyun ecs DescribeInstances \
+    --RegionId ${region} \
+    --InstanceIds "[${INSTANCE_ID_QUOTED}]" |
+    jq -r .Instances.Instance[0].PublicIpAddress.IpAddress[0])
+
+echo "You can now connect via ssh to root@${ip_address} next ..."
 set +e
