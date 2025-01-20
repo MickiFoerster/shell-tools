@@ -380,12 +380,11 @@ function gmo() {
    nvim -O ${lst}
 }
 
-alias gpt='google-chrome https://chatgpt.com'
-alias chatgpt=gpt
-alias gemini='google-chrome https://chatgpt.com'
-alias ollama='google-chrome https://ollama.com/'
-alias anthropic='google-chrome https://www.anthropic.com/'
-alias gemini='google-chrome https://gemini.google.com/app'
+alias gpt-web='google-chrome https://chatgpt.com'
+alias chatgpt-web=gpt
+alias gemini-web='google-chrome https://gemini.google.com/app'
+alias ollama-web='google-chrome https://ollama.com/'
+alias anthropic-web='google-chrome https://www.anthropic.com/'
 
 alias d=docker
 alias dc=docker-compose
