@@ -19,4 +19,10 @@ sudo chmod 4755 chrome-sandbox
 
 ls -l chrome-sandbox 
 
+# Install token simulator 
+install_dir=$(pwd)
+cd /tmp/
+curl -LO https://github.com/camunda/camunda-modeler-token-simulation-plugin/archive/refs/heads/main.zip
+cd ${install_dir} && cd resources && cd plugins && unzip /tmp/main.zip
+
 set +ex
