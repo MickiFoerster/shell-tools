@@ -2,7 +2,7 @@
 
 set -ex
 
-version=v2.24.5
+version=v2.32.4
 
 cd /tmp/
 

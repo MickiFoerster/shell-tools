@@ -8,6 +8,10 @@ source ${BASE_DIR}/ml-helpers.sh
 source ${BASE_DIR}/k8s-helpers.sh
 source ${BASE_DIR}/gcp-helpers.sh
 
+function curl-with-timeout() {
+    curl --connect-timeout 3 --max-time 3 "$@"
+}
+
 function google_chrome_headless_download_url() {
     local version=$(google-chrome --version  | sed 's#^Google Chrome ##' | cut -d'.' -f1)
     f=/tmp/gv.json
