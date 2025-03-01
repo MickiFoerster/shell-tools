@@ -5,6 +5,9 @@
 # configured by configuring environment variables or by using a configuration
 # file.
 
+#InstanceType=ecs.e-c1m1.large
+InstanceType=ecs.xn4.small
+
 set -e
 
 region=cn-hongkong
@@ -40,7 +43,7 @@ echo "Creating an ECS instance..."
 INSTANCE_ID_RAW=$(aliyun ecs RunInstances \
     --RegionId ${region} \
     --ImageId ubuntu_22_04_x64_20G_alibase_20240508.vhd \
-    --InstanceType ecs.e-c1m1.large \
+    --InstanceType ${InstanceType} \
     --SecurityGroupId ${SecurityGroupId} \
     --VSwitchId ${VSwitchId} \
     --InstanceName ${INSTANCE_NAME} \
@@ -48,7 +51,7 @@ INSTANCE_ID_RAW=$(aliyun ecs RunInstances \
     --InternetMaxBandwidthOut 50 \
     --Password $PASSWORD \
     --SystemDisk.Category cloud_essd \
-    --SystemDisk.Size 40)
+    --SystemDisk.Size 10)
 
 # 5. Obtain the InstanceId parameter for subsequently returned information.
 INSTANCE_ID=$(echo "$INSTANCE_ID_RAW" | jq -r '.InstanceIdSets.InstanceIdSet[]')
@@ -56,7 +59,11 @@ echo ${INSTANCE_ID} >instance.id
 
 # 6. Wait for 20 seconds for the ECS instance to be created.
 echo "Waiting for the ECS instance to be created..."
-sleep 20
+for i in $(seq 1 20); do
+    printf "."
+    sleep 1
+done
+echo
 
 # 7. Query the status of the ECS instance.
 echo "Querying the status of the ECS instance..."
