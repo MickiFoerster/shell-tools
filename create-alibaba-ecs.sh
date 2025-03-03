@@ -11,6 +11,7 @@ InstanceType=ecs.xn4.small
 set -e
 
 region=cn-hongkong
+#region=cn-hangzhou
 
 # 1. Configure variables.
 INSTANCE_NAME="ecs_cli_demo"
@@ -50,8 +51,8 @@ INSTANCE_ID_RAW=$(aliyun ecs RunInstances \
     --InstanceChargeType PostPaid \
     --InternetMaxBandwidthOut 50 \
     --Password $PASSWORD \
-    --SystemDisk.Category cloud_essd \
-    --SystemDisk.Size 10)
+    --SystemDisk.Category cloud_efficiency \
+    --SystemDisk.Size 40)
 
 # 5. Obtain the InstanceId parameter for subsequently returned information.
 INSTANCE_ID=$(echo "$INSTANCE_ID_RAW" | jq -r '.InstanceIdSets.InstanceIdSet[]')

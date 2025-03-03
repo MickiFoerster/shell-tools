@@ -24,6 +24,7 @@ for pkg in \
     cargo-audit \
     cargo-cranky   \
     cargo-expand \
+    cargo-modules   \
     cargo-nextest   \
     cargo-watch    \
     grcov    \

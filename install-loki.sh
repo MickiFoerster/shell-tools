@@ -1,20 +1,21 @@
 #!/bin/bash
 
-set -ex 
-cd /tmp/ 
+set -ex
+cd /tmp/
 
-curl -O -L "https://github.com/grafana/loki/releases/download/v2.9.4/loki-linux-amd64.zip"
+curl -O -L "https://github.com/grafana/loki/releases/download/v3.4.2/loki-linux-amd64.zip"
 unzip loki-linux-amd64.zip
 chmod a+x loki-linux-amd64
 
-curl -O -L "https://github.com/grafana/loki/releases/download/v2.9.4/promtail-linux-amd64.zip"
+curl -O -L "https://github.com/grafana/loki/releases/download/v3.4.2/promtail-linux-amd64.zip"
 unzip promtail-linux-amd64.zip
 chmod a+x promtail-linux-amd64
 
 mv promtail-linux-amd64 ~/bin/promtail
 mv loki-linux-amd64 ~/bin/loki
 
-cat <<EOM > /etc/promtail/promtail-config.yaml
+mkdir -p /etc/promtail
+cat <<EOM >/etc/promtail/promtail-config.yaml
 
 server:
   http_listen_port: 9080
@@ -57,7 +58,8 @@ scrape_configs:
 
 EOM
 
-cat <<EOM > /etc/loki/loki-config.yaml
+mkdir -p /etc/loki
+cat <<EOM >/etc/loki/loki-config.yaml
 
 auth_enabled: false
 
@@ -89,7 +91,7 @@ schema_config:
     - from: 2020-10-24
       store: tsdb
       object_store: filesystem
-      schema: v12
+      schema: v13
       index:
         prefix: index_
         period: 24h
