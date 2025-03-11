@@ -5,13 +5,26 @@
 # configured by configuring environment variables or by using a configuration
 # file.
 
-#InstanceType=ecs.e-c1m1.large
-InstanceType=ecs.xn4.small
-
-set -e
+# Instance Overview:
+# https://www.alibabacloud.com/help/en/ecs/user-guide/overview-of-instance-families?spm=a3c0i.28098073.8707792030..544da1472HjYkH#g8y
+#
+set -ex
 
 region=cn-hongkong
 #region=cn-hangzhou
+
+# Check availablity
+t=/tmp/availability.json
+aliyun ecs DescribeAvailableResource --DestinationResource InstanceType --RegionId ${region} >$t
+instance_type=/tmp/instance_type.txt
+cat $t | jq -r '.AvailableZones.AvailableZone[0].AvailableResources.AvailableResource[0].SupportedResources.SupportedResource[] | select(.Status == "Available" and (.Value | startswith("ecs.t6-") and endswith(".large"))) | .Value' >${instance_type}
+
+if ! grep -q "ecs." ${instance_type}; then
+    echo "No instances available"
+    exit 1
+fi
+
+InstanceType=$(head -n1 ${instance_type})
 
 # 1. Configure variables.
 INSTANCE_NAME="ecs_cli_demo"
@@ -33,7 +46,12 @@ echo ${VSwitchId} >vswitch.id
 echo "Creating a security group..."
 SecurityGroupId=$(aliyun ecs CreateSecurityGroup --RegionId ${region} --VpcId ${VpcId} | jq -r .SecurityGroupId)
 echo ${SecurityGroupId} >securitygroup.id
-aliyun ecs AuthorizeSecurityGroup --RegionId ${region} --SecurityGroupId ${SecurityGroupId} --IpProtocol tcp --SourceCidrIp 0.0.0.0/0 --PortRange 22/22 >/dev/null 2>&1
+aliyun ecs AuthorizeSecurityGroup \
+    --RegionId ${region} \
+    --SecurityGroupId ${SecurityGroupId} \
+    --IpProtocol tcp \
+    --SourceCidrIp 0.0.0.0/0 \
+    --PortRange 22/22
 
 PASSWORD=$(openssl rand -base64 20)
 echo
@@ -41,7 +59,8 @@ echo ${PASSWORD} >ecs-password
 
 # 4. Run the command used to create an ECS instance.
 echo "Creating an ECS instance..."
-INSTANCE_ID_RAW=$(aliyun ecs RunInstances \
+t=/tmp/instance_id.raw
+aliyun ecs RunInstances \
     --RegionId ${region} \
     --ImageId ubuntu_22_04_x64_20G_alibase_20240508.vhd \
     --InstanceType ${InstanceType} \
@@ -51,11 +70,14 @@ INSTANCE_ID_RAW=$(aliyun ecs RunInstances \
     --InstanceChargeType PostPaid \
     --InternetMaxBandwidthOut 50 \
     --Password $PASSWORD \
-    --SystemDisk.Category cloud_efficiency \
-    --SystemDisk.Size 40)
+    --SystemDisk.Category cloud_essd \
+    --SystemDisk.Size 40 \
+    >$t
+
+jq . $t
 
 # 5. Obtain the InstanceId parameter for subsequently returned information.
-INSTANCE_ID=$(echo "$INSTANCE_ID_RAW" | jq -r '.InstanceIdSets.InstanceIdSet[]')
+INSTANCE_ID=$(jq -r '.InstanceIdSets.InstanceIdSet[]' $t)
 echo ${INSTANCE_ID} >instance.id
 
 # 6. Wait for 20 seconds for the ECS instance to be created.
@@ -80,5 +102,17 @@ ip_address=$(aliyun ecs DescribeInstances \
     --InstanceIds "[${INSTANCE_ID_QUOTED}]" |
     jq -r .Instances.Instance[0].PublicIpAddress.IpAddress[0])
 
-echo "You can now connect via ssh to root@${ip_address} next ..."
-set +e
+cat <<EOM >inventory.yaml
+---
+hk:
+  hosts:
+    hk01:
+      ansible_host: ${ip_address}
+      ansible_user: root
+      ansible_port: 22
+      ansible_password: ${PASSWORD}
+EOM
+
+echo "You can now connect via ssh to root@${ip_address} next ... or via ansiblle-playbook -i inventory.yaml"
+
+set +ex
