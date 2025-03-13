@@ -1,5 +1,7 @@
 # Toogle switch between keyboard layouts
-setxkbmap -layout "us,de" -option "grp:lwin_switch"
+#setxkbmap -layout "us,de" -option "grp:lwin_switch"
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'de')]"
+gsettings set org.gnome.desktop.input-sources xkb-options "['grp:lwin_switch']"
 
 BASE_DIR=$(dirname $BASH_SOURCE)
 
