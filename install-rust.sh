@@ -11,9 +11,8 @@ rustup toolchain install nightly --allow-downgrade
 
 for i in \
     rustfmt \
-    clippy  \
-    rust-analyzer \
-    ; do
+    clippy \
+    rust-analyzer; do
     rustup component add $i
 done
 
@@ -22,20 +21,20 @@ export PATH=$HOME/.cargo/bin:$PATH
 # cargo packages
 for pkg in \
     cargo-audit \
-    cargo-cranky   \
+    cargo-cranky \
     cargo-expand \
-    cargo-modules   \
-    cargo-nextest   \
-    cargo-watch    \
-    grcov    \
-    rustlings    \
+    cargo-lambda \
+    cargo-modules \
+    cargo-nextest \
+    cargo-watch \
+    grcov \
+    rustlings \
     rusty-tags \
-    sea-orm-cli    \
-    sqlx-cli    \
-    tokio-console    \
+    sea-orm-cli \
+    sqlx-cli \
+    tokio-console \
     cargo-tarpaulin \
-    cargo-update  \
-    ; do
+    cargo-update; do
     cargo install ${pkg}
 done
 # crates-mirror
