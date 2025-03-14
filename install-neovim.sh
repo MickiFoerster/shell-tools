@@ -1,24 +1,27 @@
 #!/bin/bash
 
-set -ex 
+version=0.10.4
+
+set -ex
 
 if [[ $(dirname $0) == "." ]]; then
-	SHELL_TOOLS=$PWD
+    SHELL_TOOLS=$PWD
 else
-	SHELL_TOOLS=$(dirname $0)
+    SHELL_TOOLS=$(dirname $0)
 fi
 
 #sudo apt-get -y install curl gcc g++ lldb lld gdb git exuberant-ctags
 
-cd /tmp 
-curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz.sha256sum
-sha256sum --check nvim-linux64.tar.gz.sha256sum
+cd /tmp
+curl -LO https://github.com/neovim/neovim/releases/download/v${version}/nvim-linux-x86_64.tar.gz
+curl -LO https://github.com/neovim/neovim/releases/download/v${version}/nvim-linux-x86_64.tar.gz.sha256sum
+sha256sum --check nvim-linux-x86_64.tar.gz.sha256sum
+echo "sha256sum check: $?"
 mkdir -p $HOME/programs
-tar -C $HOME/programs -xf nvim-linux64.tar.gz
+tar -C $HOME/programs -xf nvim-linux-x86_64.tar.gz
 
-echo export PATH=\$PATH:$HOME/programs/nvim-linux64/bin
-export PATH=$PATH:$HOME/programs/nvim-linux64/bin
+echo export PATH=\$PATH:$HOME/programs/nvim-linux-x86_64/bin
+export PATH=$PATH:$HOME/programs/nvim-linux-x86_64/bin
 
 mkdir -p $HOME/.config
 rm -rf $HOME/.config/nvim
@@ -32,4 +35,4 @@ nvim +PackerSync
 # For TreeSitter plugin, see  https://github.com/nvim-treesitter/nvim-treesitter#adding-parsers
 cargo install tree-sitter-cli
 
-set +ex 
+set +ex
