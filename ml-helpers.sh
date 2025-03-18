@@ -406,10 +406,30 @@ sns.set()
 EOM
 }
 
+function ml-linear-regression() {
+    ml-sklearn-linear-regression
+}
+
 function ml-sklearn-linear-regression() {
-    ml-header
     cat <<EOM
+# pip install scikit-learn
+import numpy as np
 from sklearn.linear_model import LinearRegression
+
+# These are the points we know
+years = np.array([2020, 2021, 2022, 2023, 2024]).reshape(-1, 1)
+costs = np.array([1000.00, 2000.00, 3000.00, 4000, 5000])
+
+# Create and train a model for predicting future values
+model = LinearRegression()
+model.fit(years, costs)
+
+# Predict the cost for 2025
+future = np.array([2025, 2026, 2027]).reshape(-1, 1)
+predicted_costs = model.predict(future)
+
+print(predicted_costs)
+
 EOM
 }
 
