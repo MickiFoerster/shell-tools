@@ -49,13 +49,13 @@ kafka-storage.sh format --standalone -t $id -c $HOME/$dir/config/server.properti
 # This will format the directory that is in the log.dirs in the
 # config/server.properties file defined
 
-cat <<EOM >/lib/systemd/system/kafka.service
+cat <<EOM | tee /lib/systemd/system/kafka.service
 [Unit]
 Description=Kafka Broker
 
 [Service]
 Type=simple
-ExecStart=$HOME/$dir//bin/kafka-server-start.sh $HOME/$dir//config/server.properties
+ExecStart=$HOME/$dir/bin/kafka-server-start.sh $HOME/$dir/config/server.properties
 
 [Install]
 WantedBy=multi-user.target
