@@ -8,7 +8,7 @@
 # Instance Overview:
 # https://www.alibabacloud.com/help/en/ecs/user-guide/overview-of-instance-families?spm=a3c0i.28098073.8707792030..544da1472HjYkH#g8y
 #
-set -ex
+set -e
 
 region=cn-hongkong
 #region=cn-hangzhou
@@ -115,4 +115,4 @@ EOM
 
 echo "You can now connect via ssh to root@${ip_address} next ... or via ansiblle-playbook -i inventory.yaml"
 
-set +ex
+set +e
