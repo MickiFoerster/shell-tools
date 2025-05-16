@@ -14,6 +14,10 @@ function tree-rs() {
 	tree -I "target"
 }
 
+function curlj() {
+    curl -H "content-type: application/json" "$@"
+}
+
 function curl-with-timeout() {
     curl --connect-timeout 3 --max-time 3 "$@"
 }
