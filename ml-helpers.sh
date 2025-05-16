@@ -1,3 +1,24 @@
+function ml-plot-decision-tree() {
+    cat <<EOM
+from sklearn.tree import DecisionTreeClassifier
+
+clf = DecisionTreeClassifier(random_state=101)
+clf.fit(X_train, y_train)
+
+
+from IPython.display import Image
+from io import StringIO
+from sklearn import tree 
+from pydotplus import graph_from_dot_data
+
+dot_data= StringIO()
+tree.export_graphviz(clf, out_file=dot_data, feature_names=['age', 'shape', 'margin', 'density'])
+graph = graph_from_dot_data(dot_data.getvalue())
+Image(graph.create_png())
+
+EOM
+}
+
 function ml-plot-file() {
     cat <<EOM
 import matplotlib.pyplot as plt
