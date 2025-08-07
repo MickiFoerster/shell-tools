@@ -17,14 +17,31 @@ region=cn-hongkong
 t=/tmp/availability.json
 aliyun ecs DescribeAvailableResource --DestinationResource InstanceType --RegionId ${region} >$t
 instance_type=/tmp/instance_type.txt
-cat $t | jq -r '.AvailableZones.AvailableZone[0].AvailableResources.AvailableResource[0].SupportedResources.SupportedResource[] | select(.Status == "Available" and (.Value | startswith("ecs.t6-") and endswith(".large"))) | .Value' >${instance_type}
 
-if ! grep -q "ecs." ${instance_type}; then
-    echo "No instances available"
-    exit 1
+if [[ "$1" != "" ]]; then
+    echo "I try to take instance type $1 ..."
+
+    cat $t | jq -r '.AvailableZones.AvailableZone[0].AvailableResources.AvailableResource[0].SupportedResources.SupportedResource[] | select(.Status == "Available") | .Value' >${instance_type}
+
+    if ! grep -q "$1" ${instance_type}; then
+        echo "No instances available"
+        exit 1
+    fi
+
+    echo "Good news, instance type $1 is available"
+    InstanceType="$1"
+else
+    cat $t | jq -r '.AvailableZones.AvailableZone[0].AvailableResources.AvailableResource[0].SupportedResources.SupportedResource[] | select(.Status == "Available" and (.Value | startswith("ecs.t6-") and endswith(".large"))) | .Value' >${instance_type}
+
+    if ! grep -q "ecs." ${instance_type}; then
+        echo "No instances available"
+        exit 1
+    fi
+
+    InstanceType=$(head -n1 ${instance_type})
+    echo "I choose instance type ${InstanceType}"
 fi
-
-InstanceType=$(head -n1 ${instance_type})
+echo
 
 # 1. Configure variables.
 INSTANCE_NAME="ecs_cli_demo"
@@ -112,6 +129,20 @@ hk:
       ansible_port: 22
       ansible_password: ${PASSWORD}
 EOM
+
+cat <<EOM >ssh-login.exp
+#!/usr/bin/expect -f
+
+set timeout 10
+set password "${PASSWORD}"
+
+spawn ssh -o StrictHostKeyChecking=no -o "IdentitiesOnly=yes"  root@${ip_address}
+expect "password:"
+send "$password\r"
+interact
+EOM
+
+chmod 755 ssh-login.exp
 
 echo "You can now connect via ssh to root@${ip_address} next ... or via ansiblle-playbook -i inventory.yaml"
 
