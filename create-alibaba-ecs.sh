@@ -138,7 +138,7 @@ set password "${PASSWORD}"
 
 spawn ssh -o StrictHostKeyChecking=no -o "IdentitiesOnly=yes"  root@${ip_address}
 expect "password:"
-send "$password\r"
+send "\$password\r"
 interact
 EOM
 
