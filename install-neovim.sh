@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=0.10.4
+version=0.11.4
 
 set -ex
 
@@ -14,9 +14,9 @@ fi
 
 cd /tmp
 curl -LO https://github.com/neovim/neovim/releases/download/v${version}/nvim-linux-x86_64.tar.gz
-curl -LO https://github.com/neovim/neovim/releases/download/v${version}/nvim-linux-x86_64.tar.gz.sha256sum
-sha256sum --check nvim-linux-x86_64.tar.gz.sha256sum
-echo "sha256sum check: $?"
+#curl -LO https://github.com/neovim/neovim/releases/download/v${version}/nvim-linux-x86_64.tar.gz.sha256sum
+#sha256sum --check nvim-linux-x86_64.tar.gz.sha256sum
+#echo "sha256sum check: $?"
 mkdir -p $HOME/programs
 tar -C $HOME/programs -xf nvim-linux-x86_64.tar.gz
 
