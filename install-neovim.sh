@@ -27,6 +27,10 @@ mkdir -p $HOME/.config
 rm -rf $HOME/.config/nvim
 git clone https://github.com/MickiFoerster/config-nvim.git $HOME/.config/nvim
 
+cd $HOME/.config/nvim;
+git remote set-url origin git@github.com:MickiFoerster/config-nvim.git https://github.com/MickiFoerster/config-nvim.git
+cd - 
+
 rm -rf ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
