@@ -10,6 +10,15 @@ source ${BASE_DIR}/ml-helpers.sh
 source ${BASE_DIR}/k8s-helpers.sh
 source ${BASE_DIR}/gcp-helpers.sh
 
+function docker_inspect_networks() {
+    if [ "$1" == "" ]; then 
+        echo "Give stack service name as argument"; 
+        return 1; 
+    fi
+
+    docker service inspect "$1" --format '{{json .Spec.TaskTemplate.Networks}}' | jq
+}
+
 function tree-rs() {
 	tree -I "target"
 }
