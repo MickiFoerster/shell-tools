@@ -10,6 +10,10 @@ source ${BASE_DIR}/ml-helpers.sh
 source ${BASE_DIR}/k8s-helpers.sh
 source ${BASE_DIR}/gcp-helpers.sh
 
+function docker_watch_services_not_starting() {
+    watch "docker stack ls --format '{{.Name}}' | xargs -ixxx docker stack services xxx --format '{{.Name}}    {{.Replicas}}' | /usr/bin/grep '0/'"
+}
+
 function docker_inspect_networks() {
     if [ "$1" == "" ]; then 
         echo "Give stack service name as argument"; 
