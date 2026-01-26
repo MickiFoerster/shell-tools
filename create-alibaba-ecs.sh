@@ -8,10 +8,15 @@
 # Instance Overview:
 # https://www.alibabacloud.com/help/en/ecs/user-guide/overview-of-instance-families?spm=a3c0i.28098073.8707792030..544da1472HjYkH#g8y
 #
+# ecs.g8y.small
+#
 set -e
 
+mkdir -p /tmp/alibaba && cd /tmp/alibaba
+
 region=cn-hongkong
-# region=cn-hangzhou
+#region=cn-hangzhou
+#region=ap-southeast-1
 
 # === SSH Key Setup ===
 # You can either:
@@ -68,16 +73,17 @@ echo
 INSTANCE_NAME="ecs_cli_demo"
 
 echo "Creating a VPC..."
-VpcId=$(aliyun vpc CreateVpc --RegionId "${region}" --CidrBlock 192.168.0.0/16 | jq -r .VpcId)
+aliyun vpc CreateVpc --RegionId "${region}" --CidrBlock 192.168.0.0/16 | jq -r .VpcId >vpc.id
+VpcId=$(cat vpc.id)
 echo "VPC ID is ${VpcId}"
-echo "${VpcId}" >vpc.id
+echo "${VpcId}" 
 
 printf "Wait status is 'available' ... "
 aliyun vpc DescribeVpcAttribute --RegionId "${region}" --VpcId "${VpcId}" --waiter expr='Status' to=Available
 echo "done"
 
 echo "Creating a vSwitch..."
-VSwitchId=$(aliyun vpc CreateVSwitch --CidrBlock 192.168.0.0/24 --VpcId "${VpcId}" --ZoneId="${region}-d" | jq -r .VSwitchId)
+VSwitchId=$(aliyun vpc CreateVSwitch --RegionId "${region}" --CidrBlock 192.168.0.0/24 --VpcId "${VpcId}" --ZoneId="${region}-d" | jq -r .VSwitchId)
 echo "${VSwitchId}" >vswitch.id
 
 echo "Creating a security group..."
