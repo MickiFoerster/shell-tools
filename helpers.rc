@@ -414,7 +414,7 @@ alias ollama-web='google-chrome https://ollama.com/'
 alias anthropic-web='google-chrome https://www.anthropic.com/'
 
 alias d=docker
-alias dc=docker-compose
+alias dc='docker compose'
 alias p='python3'
 alias gs='git status'
 alias gitdiff='git difftool -x "nvim -d -O"'
