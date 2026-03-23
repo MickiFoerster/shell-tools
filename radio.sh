@@ -20,7 +20,7 @@ channel7='http://hi5.streamingsoundtracks.com/;'
 printf "8. 181.fm - the buzz\n"
 channel8='http://relay.181.fm:8126/'
 printf "9. www.cinemix.us\n"
-channel9='http://listen.cinemix.fr'
+channel9='https://kathy.torontocast.com:1190/stream'
 printf "Choose your channel: "
 read answer
 
