@@ -44,18 +44,22 @@ t=/tmp/availability.json
 aliyun ecs DescribeAvailableResource --DestinationResource InstanceType --RegionId "${region}" >"$t"
 instance_type=/tmp/instance_type.txt
 
-if [[ "$1" != "" ]]; then
-    echo "I try to take instance type $1 ..."
+# Take instance type ecs.e-c2m1.large
+# instance=$1
+instance=ecs.e-c2m1.large
+
+if [[ "$instance" != "" ]]; then
+    echo "I try to take instance type $instance ..."
 
     cat "$t" | jq -r '.AvailableZones.AvailableZone[0].AvailableResources.AvailableResource[0].SupportedResources.SupportedResource[] | select(.Status == "Available") | .Value' >"${instance_type}"
 
-    if ! grep -q "$1" "${instance_type}"; then
+    if ! grep -q "$instance" "${instance_type}"; then
         echo "No instances available"
         exit 1
     fi
 
-    echo "Good news, instance type $1 is available"
-    InstanceType="$1"
+    echo "Good news, instance type $instance is available"
+    InstanceType="$instance"
 else
     cat "$t" | jq -r '.AvailableZones.AvailableZone[0].AvailableResources.AvailableResource[0].SupportedResources.SupportedResource[] | select(.Status == "Available" and (.Value | startswith("ecs.t6-") and endswith(".large"))) | .Value' >"${instance_type}"
 
