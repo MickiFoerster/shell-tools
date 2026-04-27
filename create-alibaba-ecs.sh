@@ -18,6 +18,10 @@ region=cn-hongkong
 #region=cn-hangzhou
 #region=ap-southeast-1
 
+while 1 2 3; do 
+    nslookup ecs.${region}.aliyuncs.com
+done
+
 # === SSH Key Setup ===
 # You can either:
 #   a) Use an existing key pair name in Alibaba Cloud (set KEY_PAIR_NAME), OR
