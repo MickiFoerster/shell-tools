@@ -18,7 +18,7 @@ region=cn-hongkong
 #region=cn-hangzhou
 #region=ap-southeast-1
 
-while 1 2 3; do 
+for i in 1 2 3; do 
     nslookup ecs.${region}.aliyuncs.com
 done
 
