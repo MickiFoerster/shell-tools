@@ -10,10 +10,6 @@
 #
 # ecs.g8y.small
 #
-set -e
-
-mkdir -p /tmp/alibaba && cd /tmp/alibaba
-
 region=cn-hongkong
 #region=cn-hangzhou
 #region=ap-southeast-1
@@ -21,6 +17,10 @@ region=cn-hongkong
 for i in 1 2 3; do 
     nslookup ecs.${region}.aliyuncs.com
 done
+
+set -e
+
+mkdir -p /tmp/alibaba && cd /tmp/alibaba
 
 # === SSH Key Setup ===
 # You can either:
