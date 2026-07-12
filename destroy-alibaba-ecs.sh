@@ -2,6 +2,10 @@
 
 region=cn-hongkong
 
+for i in 1 2 3; do 
+    nslookup ecs.${region}.aliyuncs.com
+done
+
 # stop instance
 if [[ -f instance.id ]]; then
     instance_id=$(cat instance.id)
